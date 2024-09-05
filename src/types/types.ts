@@ -82,3 +82,11 @@ export interface ProjectProps {
   technologies: string[];
   role: string;
 }
+
+export interface PublicationProps {
+  title: string;
+  publisher: string;
+  date: string;
+  description: string;
+  link: string;
+}
