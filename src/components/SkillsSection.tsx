@@ -4,22 +4,21 @@ import React, { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Drawer,
   DrawerClose,
   DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { ChevronLeft, ChevronDown } from "lucide-react";
 
@@ -42,26 +41,25 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ title, skills }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const SkillContent = ({ skill }: { skill: Skill }) => (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <h3 className="font-bold text-lg">{skill.name}</h3>
-        <Badge>{skill.proficiency}</Badge>
-      </div>
+    <div className="space-y-2">
+      <p>
+        <span className="font-semibold">Proficiency:</span> {skill.proficiency}
+      </p>
       <p>
         <span className="font-semibold">Years of Experience:</span>{" "}
         {skill.yearsOfExperience}
       </p>
       <div>
-        <h4 className="font-semibold mb-2">Projects:</h4>
-        <ul className="list-disc list-inside space-y-1">
+        <h3 className="font-semibold">Projects:</h3>
+        <ul className="list-disc list-inside">
           {skill.projects.map((project, index) => (
             <li key={index}>{project}</li>
           ))}
         </ul>
       </div>
       <div>
-        <h4 className="font-semibold mb-2">Certifications:</h4>
-        <ul className="list-disc list-inside space-y-1">
+        <h3 className="font-semibold">Certifications:</h3>
+        <ul className="list-disc list-inside">
           {skill.certifications.map((cert, index) => (
             <li key={index}>{cert}</li>
           ))}
@@ -71,45 +69,27 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ title, skills }) => {
   );
 
   const DesktopView = () => (
-    <Card>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>
-          Scroll horizontally to view all skills. Click on a skill to view
-          details.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Tabs defaultValue={skills[0].name} className="w-full">
-          <ScrollArea className="w-full whitespace-nowrap rounded-md border">
-            <TabsList className="inline-flex h-10 items-center justify-center rounded-none p-1">
-              {skills.map((skill) => (
-                <TabsTrigger
-                  key={skill.name}
-                  value={skill.name}
-                  className="rounded-sm px-3"
-                  onClick={() => setSelectedSkill(skill)}
-                >
-                  {skill.name}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
-          <div className="mt-6">
-            {skills.map((skill) => (
-              <TabsContent key={skill.name} value={skill.name}>
-                <Card>
-                  <CardContent className="pt-6">
-                    <SkillContent skill={skill} />
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            ))}
-          </div>
-        </Tabs>
-      </CardContent>
-    </Card>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" className="w-full justify-between">
+          {title}
+          <ChevronDown className="h-4 w-4 opacity-50" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        {skills.map((skill, index) => (
+          <DropdownMenuItem
+            key={index}
+            onSelect={() => setSelectedSkill(skill)}
+          >
+            <Badge variant="secondary" className="mr-2">
+              {index + 1}
+            </Badge>
+            {skill.name}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 
   const MobileView = () => (
@@ -120,53 +100,73 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ title, skills }) => {
           <ChevronDown className="h-4 w-4 opacity-50" />
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-[85vh]">
+      <DrawerContent>
         <DrawerHeader className="text-left">
-          <DrawerTitle>
-            {selectedSkill ? selectedSkill.name : title}
-          </DrawerTitle>
+          <DrawerTitle>{title}</DrawerTitle>
+          <DrawerDescription>Select a skill to view details</DrawerDescription>
         </DrawerHeader>
-        <ScrollArea className="h-full px-4">
+        <div className="p-4 pb-0">
           {selectedSkill ? (
-            <div className="pb-6">
+            <>
               <Button
                 variant="ghost"
-                className="mb-4 p-0 h-auto"
+                className="mb-4"
                 onClick={() => setSelectedSkill(null)}
               >
                 <ChevronLeft className="mr-2 h-4 w-4" />
                 Back to Skills
               </Button>
+              <h3 className="font-bold text-lg mb-2">{selectedSkill.name}</h3>
               <SkillContent skill={selectedSkill} />
-            </div>
+            </>
           ) : (
-            <div className="grid grid-cols-2 gap-2 pb-6">
+            <div className="space-y-2">
               {skills.map((skill, index) => (
                 <Button
                   key={index}
                   variant="outline"
-                  className="h-auto py-2 px-3 justify-start"
+                  className="w-full justify-start"
                   onClick={() => setSelectedSkill(skill)}
                 >
-                  <div className="flex flex-col items-start">
-                    <span className="font-medium">{skill.name}</span>
-                    <Badge variant="secondary" className="mt-1">
-                      {skill.proficiency}
-                    </Badge>
-                  </div>
+                  <Badge variant="secondary" className="mr-2">
+                    {index + 1}
+                  </Badge>
+                  {skill.name}
                 </Button>
               ))}
             </div>
           )}
-        </ScrollArea>
-        <DrawerClose className="absolute top-2 right-2" />
+        </div>
+        <DrawerFooter>
+          <DrawerClose asChild>
+            <Button variant="outline">Close</Button>
+          </DrawerClose>
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );
 
   return (
-    <div className="bg-background rounded-lg shadow mb-6">
+    <div className="bg-background rounded-lg shadow p-6 mb-6">
       {isDesktop ? <DesktopView /> : <MobileView />}
+      {isDesktop && (
+        <div className="mt-4">
+          {selectedSkill ? (
+            <>
+              <h3 className="font-bold text-lg mb-2">{selectedSkill.name}</h3>
+              <SkillContent skill={selectedSkill} />
+            </>
+          ) : (
+            <div className="text-center text-muted-foreground">
+              <p>Select a skill to view its details.</p>
+              <p>
+                You can see information about proficiency, years of experience,
+                projects, and certifications.
+              </p>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
