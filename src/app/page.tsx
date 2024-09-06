@@ -23,16 +23,8 @@ export default function ResumePage() {
       />
 
       <main className="max-w-7xl mx-auto px-4 py-8">
-        <ProfileInfo
-          name={personalData.name}
-          location={personalData.location}
-          phone={personalData.phone}
-          email={personalData.email}
-          avatar={personalData.avatar}
-        />
-
         <div className="mt-8 flex flex-col md:flex-row gap-8">
-          <aside className="w-full md:w-1/3 space-y-6">
+          <aside className="w-full md:w-1/4 space-y-6">
             <SkillsSection
               title="Programming Languages"
               skills={personalData.programmingLanguages}
@@ -47,7 +39,14 @@ export default function ResumePage() {
             />
           </aside>
 
-          <div className="w-full md:w-2/3">
+          <div className="w-full md:w-3/4">
+            <ProfileInfo
+              name={personalData.name}
+              location={personalData.location}
+              phone={personalData.phone}
+              email={personalData.email}
+              avatar={personalData.avatar}
+            />
             {activeTab === "experience" && (
               <div>
                 <h2 className="text-2xl font-bold mb-4">Experience</h2>

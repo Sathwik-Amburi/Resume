@@ -136,7 +136,7 @@ export default function Header({
             <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
             <Input
               className="pl-8 pr-2 py-1 w-full text-sm placeholder-gray-500 border-none rounded-full focus:ring-2 focus:ring-[#1877F2] dark:focus:ring-[#4599FF]"
-              placeholder={`Search ${name}'s Resume`}
+              placeholder={`Search Resume`}
             />
           </div>
         </div>
