@@ -1,26 +1,27 @@
 "use client";
+
 import React, { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { ChevronLeft, ChevronDown } from "lucide-react";
 
 export interface Skill {
   name: string;
@@ -36,93 +37,136 @@ export interface SkillsSectionProps {
 }
 
 const SkillsSection: React.FC<SkillsSectionProps> = ({ title, skills }) => {
-  const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const SkillContent = () => (
-    <div>
-      {selectedSkill && (
-        <>
-          <p>Proficiency: {selectedSkill.proficiency}</p>
-          <p>Years of Experience: {selectedSkill.yearsOfExperience}</p>
-          <h3 className="font-semibold mt-2">Projects:</h3>
-          <ul className="list-disc list-inside">
-            {selectedSkill.projects.map((project, index) => (
-              <li key={index}>{project}</li>
-            ))}
-          </ul>
-          <h3 className="font-semibold mt-2">Certifications:</h3>
-          <ul className="list-disc list-inside">
-            {selectedSkill.certifications.map((cert, index) => (
-              <li key={index}>{cert}</li>
-            ))}
-          </ul>
-        </>
-      )}
+  const SkillContent = ({ skill }: { skill: Skill }) => (
+    <div className="space-y-4">
+      <div className="flex justify-between items-center">
+        <h3 className="font-bold text-lg">{skill.name}</h3>
+        <Badge>{skill.proficiency}</Badge>
+      </div>
+      <p>
+        <span className="font-semibold">Years of Experience:</span>{" "}
+        {skill.yearsOfExperience}
+      </p>
+      <div>
+        <h4 className="font-semibold mb-2">Projects:</h4>
+        <ul className="list-disc list-inside space-y-1">
+          {skill.projects.map((project, index) => (
+            <li key={index}>{project}</li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h4 className="font-semibold mb-2">Certifications:</h4>
+        <ul className="list-disc list-inside space-y-1">
+          {skill.certifications.map((cert, index) => (
+            <li key={index}>{cert}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 
-  return (
-    <div className="bg-background rounded-lg shadow p-6 mb-6">
-      <h2 className="font-bold text-xl mb-4">{title}</h2>
-      <div className="flex flex-wrap gap-2">
-        {skills.map((skill, index) =>
-          isDesktop ? (
-            <Dialog key={index}>
-              <DialogTrigger asChild>
-                <Button
-                  variant="outline"
+  const DesktopView = () => (
+    <Card>
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>
+          Scroll horizontally to view all skills. Click on a skill to view
+          details.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Tabs defaultValue={skills[0].name} className="w-full">
+          <ScrollArea className="w-full whitespace-nowrap rounded-md border">
+            <TabsList className="inline-flex h-10 items-center justify-center rounded-none p-1">
+              {skills.map((skill) => (
+                <TabsTrigger
+                  key={skill.name}
+                  value={skill.name}
+                  className="rounded-sm px-3"
                   onClick={() => setSelectedSkill(skill)}
                 >
-                  <Badge variant="secondary" className="mr-2">
-                    {index + 1}
-                  </Badge>
                   {skill.name}
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>{skill.name}</DialogTitle>
-                  <DialogDescription>
-                    Click the skill to see more details.
-                  </DialogDescription>
-                </DialogHeader>
-                <SkillContent />
-              </DialogContent>
-            </Dialog>
+                </TabsTrigger>
+              ))}
+            </TabsList>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+          <div className="mt-6">
+            {skills.map((skill) => (
+              <TabsContent key={skill.name} value={skill.name}>
+                <Card>
+                  <CardContent className="pt-6">
+                    <SkillContent skill={skill} />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            ))}
+          </div>
+        </Tabs>
+      </CardContent>
+    </Card>
+  );
+
+  const MobileView = () => (
+    <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+      <DrawerTrigger asChild>
+        <Button variant="outline" className="w-full justify-between">
+          {title}
+          <ChevronDown className="h-4 w-4 opacity-50" />
+        </Button>
+      </DrawerTrigger>
+      <DrawerContent className="h-[85vh]">
+        <DrawerHeader className="text-left">
+          <DrawerTitle>
+            {selectedSkill ? selectedSkill.name : title}
+          </DrawerTitle>
+        </DrawerHeader>
+        <ScrollArea className="h-full px-4">
+          {selectedSkill ? (
+            <div className="pb-6">
+              <Button
+                variant="ghost"
+                className="mb-4 p-0 h-auto"
+                onClick={() => setSelectedSkill(null)}
+              >
+                <ChevronLeft className="mr-2 h-4 w-4" />
+                Back to Skills
+              </Button>
+              <SkillContent skill={selectedSkill} />
+            </div>
           ) : (
-            <Drawer key={index}>
-              <DrawerTrigger asChild>
+            <div className="grid grid-cols-2 gap-2 pb-6">
+              {skills.map((skill, index) => (
                 <Button
+                  key={index}
                   variant="outline"
+                  className="h-auto py-2 px-3 justify-start"
                   onClick={() => setSelectedSkill(skill)}
                 >
-                  <Badge variant="secondary" className="mr-2">
-                    {index + 1}
-                  </Badge>
-                  {skill.name}
+                  <div className="flex flex-col items-start">
+                    <span className="font-medium">{skill.name}</span>
+                    <Badge variant="secondary" className="mt-1">
+                      {skill.proficiency}
+                    </Badge>
+                  </div>
                 </Button>
-              </DrawerTrigger>
-              <DrawerContent>
-                <DrawerHeader className="text-left">
-                  <DrawerTitle>{skill.name}</DrawerTitle>
-                  <DrawerDescription>
-                    Click the skill to see more details.
-                  </DrawerDescription>
-                </DrawerHeader>
-                <div className="p-4 pb-0">
-                  <SkillContent />
-                </div>
-                <DrawerFooter className="pt-2">
-                  <DrawerClose asChild>
-                    <Button variant="outline">Close</Button>
-                  </DrawerClose>
-                </DrawerFooter>
-              </DrawerContent>
-            </Drawer>
-          )
-        )}
-      </div>
+              ))}
+            </div>
+          )}
+        </ScrollArea>
+        <DrawerClose className="absolute top-2 right-2" />
+      </DrawerContent>
+    </Drawer>
+  );
+
+  return (
+    <div className="bg-background rounded-lg shadow mb-6">
+      {isDesktop ? <DesktopView /> : <MobileView />}
     </div>
   );
 };

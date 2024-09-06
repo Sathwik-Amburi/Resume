@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import ProfileInfo from "@/components/ProfileInfo";
 import EducationCard from "@/components/EducationCard";
 import Header from "@/components/Header";
@@ -8,13 +10,16 @@ import ExperienceCard from "@/components/ExperienceCard";
 import ProjectCard from "@/components/ProjectCard";
 import PublicationCard from "@/components/PublicationCard";
 
-export default function Component() {
+export default function ResumePage() {
+  const [activeTab, setActiveTab] = useState("experience");
+
   return (
-    <div className="bg-background min-h-screen">
+    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen">
       <Header
         name={personalData.name}
-        jobTitle={personalData.jobTitle}
         avatar={personalData.avatar}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
       />
 
       <main className="max-w-7xl mx-auto px-4 py-8">
@@ -26,8 +31,8 @@ export default function Component() {
           avatar={personalData.avatar}
         />
 
-        <div className="lg:flex lg:space-x-8">
-          <div className="lg:w-1/3 space-y-6 mb-6 lg:mb-0">
+        <div className="mt-8 flex flex-col md:flex-row gap-8">
+          <aside className="w-full md:w-1/3 space-y-6">
             <SkillsSection
               title="Programming Languages"
               skills={personalData.programmingLanguages}
@@ -40,28 +45,41 @@ export default function Component() {
               title="Soft Skills"
               skills={personalData.softSkills}
             />
-          </div>
+          </aside>
 
-          <div className="lg:w-2/3">
-            <h2 className="text-2xl font-bold mb-4">Experience</h2>
-            {personalData.experiences.map((exp, index) => (
-              <ExperienceCard key={index} {...exp} />
-            ))}
-
-            <h2 className="text-2xl font-bold mb-4 mt-8">Education</h2>
-            {personalData.education.map((edu, index) => (
-              <EducationCard key={index} {...edu} />
-            ))}
-
-            <h2 className="text-2xl font-bold mb-4 mt-8">Projects</h2>
-            {personalData.projects.map((project, index) => (
-              <ProjectCard key={index} {...project} />
-            ))}
-
-            <h2 className="text-2xl font-bold mb-4 mt-8">Publications</h2>
-            {personalData.publications.map((publication, index) => (
-              <PublicationCard key={index} {...publication} />
-            ))}
+          <div className="w-full md:w-2/3">
+            {activeTab === "experience" && (
+              <div>
+                <h2 className="text-2xl font-bold mb-4">Experience</h2>
+                {personalData.experiences.map((exp, index) => (
+                  <ExperienceCard key={index} {...exp} />
+                ))}
+              </div>
+            )}
+            {activeTab === "education" && (
+              <div>
+                <h2 className="text-2xl font-bold mb-4">Education</h2>
+                {personalData.education.map((edu, index) => (
+                  <EducationCard key={index} {...edu} />
+                ))}
+              </div>
+            )}
+            {activeTab === "projects" && (
+              <div>
+                <h2 className="text-2xl font-bold mb-4">Projects</h2>
+                {personalData.projects.map((project, index) => (
+                  <ProjectCard key={index} {...project} />
+                ))}
+              </div>
+            )}
+            {activeTab === "publications" && (
+              <div>
+                <h2 className="text-2xl font-bold mb-4">Publications</h2>
+                {personalData.publications.map((publication, index) => (
+                  <PublicationCard key={index} {...publication} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </main>

@@ -66,7 +66,6 @@ export interface ProfileInfoProps {
 
 export interface HeaderProps {
   name: string;
-  jobTitle: string;
   avatar: string;
 }
 

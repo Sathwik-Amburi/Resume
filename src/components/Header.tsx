@@ -1,68 +1,211 @@
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+"use client";
+
+import { useState, useEffect } from "react";
 import ModeToggle from "@/components/Toggle";
-
 import { HeaderProps } from "@/types/types";
-
-import { Search, Menu, Linkedin, Github } from "lucide-react";
+import {
+  Search,
+  Briefcase,
+  GraduationCap,
+  Code,
+  BookOpen,
+  ChevronDown,
+  Menu,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { motion } from "framer-motion";
 
-const Header: React.FC<HeaderProps> = ({ name, jobTitle, avatar }) => (
-  <header className="bg-background shadow-sm sticky top-0 z-10">
-    <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between">
-      <div className="flex items-center space-x-4">
-        <Avatar className="w-10 h-10 bg-blue-500">
-          <AvatarFallback>{name[0]}</AvatarFallback>
-        </Avatar>
-        <div className="relative hidden sm:block">
-          <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
-          <Input className="pl-8" placeholder={jobTitle} />
+interface ExtendedHeaderProps extends HeaderProps {
+  activeTab: string;
+  onTabChange: (value: string) => void;
+}
+
+export default function Header({
+  name,
+  avatar,
+  activeTab,
+  onTabChange,
+}: ExtendedHeaderProps) {
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, []);
+
+  const tabs = [
+    { value: "experience", icon: Briefcase, label: "Experience" },
+    { value: "education", icon: GraduationCap, label: "Education" },
+    { value: "projects", icon: Code, label: "Projects" },
+    { value: "publications", icon: BookOpen, label: "Publications" },
+  ];
+
+  const TabContent = () => (
+    <Tabs
+      value={activeTab}
+      onValueChange={onTabChange}
+      className="flex-1 max-w-md"
+    >
+      <TabsList className="flex justify-center bg-transparent space-x-1 sm:space-x-2">
+        {tabs.map((tab) => (
+          <TooltipProvider key={tab.value}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <TabsTrigger
+                  value={tab.value}
+                  className={`flex-1 relative group px-2 py-1.5 rounded-md transition-colors duration-200 ${
+                    activeTab === tab.value
+                      ? "bg-[#E7F3FF] dark:bg-[#263951]"
+                      : "hover:bg-gray-100 dark:hover:bg-gray-800"
+                  }`}
+                >
+                  <tab.icon
+                    className={`w-5 h-5 mx-auto transition-colors duration-200 ${
+                      activeTab === tab.value
+                        ? "text-[#1877F2] dark:text-[#4599FF]"
+                        : "text-gray-500 dark:text-gray-400"
+                    }`}
+                  />
+                  {activeTab === tab.value && (
+                    <motion.div
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#1877F2] dark:bg-[#4599FF]"
+                      layoutId="underline"
+                      initial={false}
+                      transition={{
+                        type: "spring",
+                        stiffness: 500,
+                        damping: 30,
+                      }}
+                    />
+                  )}
+                </TabsTrigger>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{tab.label}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        ))}
+      </TabsList>
+    </Tabs>
+  );
+
+  return (
+    <header className="shadow-sm sticky top-0 z-10 bg-background">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 py-1 flex items-center justify-between">
+        <div className="flex items-center space-x-2">
+          <svg
+            className="w-8 h-8 text-[#1877F2] dark:text-[#4599FF]"
+            viewBox="0 0 36 36"
+            fill="currentColor"
+            role="img"
+            aria-label="Facebook logo"
+          >
+            <path d="M15 35.8C6.5 34.3 0 26.9 0 18 0 8.1 8.1 0 18 0s18 8.1 18 18c0 8.9-6.5 16.3-15 17.8l-1-.8h-4l-1 .8z" />
+            <path
+              fill="#fff"
+              d="M25 23l.8-5H21v-3.5c0-1.4.5-2.5 2.7-2.5H26V7.4c-1.3-.2-2.7-.4-4-.4-4.1 0-7 2.5-7 7v4h-4.5v5H15v12.7c1 .2 2 .3 3 .3s2-.1 3-.3V23h4z"
+            />
+          </svg>
+          <div
+            className={`relative ${
+              isSearchVisible ? "flex" : "hidden"
+            } sm:flex flex-1 max-w-[200px]`}
+          >
+            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <Input
+              className="pl-8 pr-2 py-1 w-full text-sm placeholder-gray-500 border-none rounded-full focus:ring-2 focus:ring-[#1877F2] dark:focus:ring-[#4599FF]"
+              placeholder={`Search ${name}'s Resume`}
+            />
+          </div>
+        </div>
+        {!isMobile && <TabContent />}
+        <div className="flex items-center space-x-2 sm:space-x-3">
+          {isMobile && (
+            <>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsSearchVisible(!isSearchVisible)}
+              >
+                <Search className="h-4 w-4" />
+                <span className="sr-only">Toggle search</span>
+              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Menu className="h-4 w-4" />
+                    <span className="sr-only">Open menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  {tabs.map((tab) => (
+                    <DropdownMenuItem
+                      key={tab.value}
+                      onClick={() => onTabChange(tab.value)}
+                      className="flex items-center"
+                    >
+                      <tab.icon className="mr-2 h-4 w-4" />
+                      {tab.label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
+          )}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="flex items-center space-x-2"
+              >
+                <Avatar className="w-7 h-7 border border-[#1877F2] dark:border-[#4599FF]">
+                  <AvatarImage src={avatar} alt={name} />
+                  <AvatarFallback className="bg-[#1877F2] text-white text-xs">
+                    {name
+                      .split(" ")
+                      .map((n: string) => n[0])
+                      .join("")}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="font-semibold text-sm hidden sm:inline">
+                  {name}
+                </span>
+                <ChevronDown className="h-3 w-3" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Logout</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <ModeToggle />
         </div>
       </div>
-      <div className="flex items-center space-x-4">
-        <Avatar>
-          <AvatarImage src={avatar} alt={name} />
-          <AvatarFallback>
-            {name
-              .split(" ")
-              .map((n: string) => n[0])
-              .join("")}
-          </AvatarFallback>
-        </Avatar>
-        <span className="text-blue-500 font-semibold hidden sm:inline">
-          {name}
-        </span>
-        <Button variant="ghost" size="icon" className="hidden sm:inline-flex">
-          <Linkedin className="h-5 w-5" />
-        </Button>
-        <Button variant="ghost" size="icon" className="hidden sm:inline-flex">
-          <Github className="h-5 w-5" />
-        </Button>
-        <ModeToggle />
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="sm:hidden">
-              <Menu className="h-6 w-6" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-            <nav className="flex flex-col space-y-4">
-              <a href="#" className="text-lg font-medium">
-                Profile
-              </a>
-              <a href="#" className="text-lg font-medium">
-                Settings
-              </a>
-              <a href="#" className="text-lg font-medium">
-                Logout
-              </a>
-            </nav>
-          </SheetContent>
-        </Sheet>
-      </div>
-    </div>
-  </header>
-);
-
-export default Header;
+    </header>
+  );
+}
