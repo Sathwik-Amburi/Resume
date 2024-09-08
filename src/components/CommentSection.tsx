@@ -53,12 +53,15 @@ export default function CommentSection() {
 
   useEffect(() => {
     console.log("Current user:", currentUser.name);
-  }, []);
+  }, [currentUser.name]);
 
   return (
     <div className="mt-4 border-t border-gray-200 dark:border-gray-700 pt-4">
       <div className="mb-4">
-        <Button onClick={handleUserChange} className="text-blue-600 dark:text-blue-400">
+        <Button
+          onClick={handleUserChange}
+          className="text-blue-600 dark:text-blue-400"
+        >
           Switch User
         </Button>
         <span className="ml-2">Current User: {currentUser.name}</span>
@@ -92,7 +95,8 @@ export default function CommentSection() {
               <AvatarFallback>{comment.user.name.charAt(0)}</AvatarFallback>
             </Avatar>
             <div>
-              <span className="font-bold">{comment.user.name}</span>: {comment.text}
+              <span className="font-bold">{comment.user.name}</span>:{" "}
+              {comment.text}
             </div>
           </div>
         ))}
