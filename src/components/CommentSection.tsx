@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import EmojiPicker from 'emoji-picker-react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -28,17 +28,22 @@ export default function CommentSection() {
 
   const [comment, setComment] = useState("");
 
-  const handleUserChange = () => {
-    setCurrentUser((prevUser) =>
-      prevUser.id === defaultUsers[0].id ? defaultUsers[1] : defaultUsers[0]
-    );
+  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedUser = defaultUsers.find(user => user.id === parseInt(e.target.value));
+    if (selectedUser) {
+      setCurrentUser(selectedUser);
+    }
   };
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value);
   };
 
-  const handleSubmitComment = (e: React.FormEvent) => {
+  const handleEmojiClick = (event: any, emojiObject: any) => {
+    setComment(prevComment => prevComment + emojiObject.emoji);
+  };
+
+  const handleSubmitComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (comment.trim() === "") return;
 
@@ -58,13 +63,11 @@ export default function CommentSection() {
   return (
     <div className="mt-4 border-t border-gray-200 dark:border-gray-700 pt-4">
       <div className="mb-4">
-        <Button
-          onClick={handleUserChange}
-          className="text-blue-600 dark:text-blue-400"
-        >
-          Switch User
-        </Button>
-        <span className="ml-2">Current User: {currentUser.name}</span>
+        <select onChange={handleUserChange} value={currentUser.id} className="text-blue-600 dark:text-blue-400">
+          {defaultUsers.map(user => (
+            <option key={user.id} value={user.id}>{user.name}</option>
+          ))}
+        </select>
       </div>
       <form onSubmit={handleSubmitComment} className="flex items-center mb-4">
         <Avatar className="w-8 h-8 mr-2">
@@ -87,7 +90,7 @@ export default function CommentSection() {
           <span className="sr-only">Submit comment</span>
         </Button>
       </form>
-      <div>
+      <EmojiPicker onEmojiClick={handleEmojiClick} />
         {comments.map((comment, index) => (
           <div key={index} className="flex items-center mb-2">
             <Avatar className="w-8 h-8 mr-2">
