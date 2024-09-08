@@ -92,17 +92,24 @@ export default function CommentSection() {
           value={comment}
           onChange={handleCommentChange}
         />
-        <Button
-          type="submit"
-          variant="ghost"
-          size="icon"
-          className="ml-2 text-blue-600 dark:text-blue-400"
-        >
-          <Smile className="h-4 w-4" onClick={toggleEmojiPicker} />
-          <span className="sr-only">Submit comment</span>
-        </Button>
+        <div className="relative">
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="ml-2 text-blue-600 dark:text-blue-400"
+            onClick={toggleEmojiPicker}
+          >
+            <Smile className="h-4 w-4" />
+            <span className="sr-only">Toggle emoji picker</span>
+          </Button>
+          {showEmojiPicker && (
+            <div className="absolute z-10 mt-2">
+              <EmojiPicker onEmojiClick={handleEmojiClick} />
+            </div>
+          )}
+        </div>
       </form>
-      {showEmojiPicker && <EmojiPicker onEmojiClick={handleEmojiClick} />}
       {comments.map((comment, index) => (
         <div key={index} className="flex items-center mb-2">
           <Avatar className="w-8 h-8 mr-2">
