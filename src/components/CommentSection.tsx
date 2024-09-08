@@ -1,11 +1,37 @@
 "use client";
 import { useState } from "react";
+import { useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Smile } from "lucide-react";
 
+interface User {
+  id: number;
+  name: string;
+  avatar: string;
+}
+
+interface Comment {
+  user: User;
+  text: string;
+}
+
+const defaultUsers: User[] = [
+  { id: 1, name: "Alice", avatar: "/avatars/alice.png" },
+  { id: 2, name: "Bob", avatar: "/avatars/bob.png" },
+];
+
 export default function CommentSection() {
+  const [currentUser, setCurrentUser] = useState<User>(defaultUsers[0]);
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState<Comment[]>([]);
+
+  const handleUserChange = () => {
+    setCurrentUser((prevUser) =>
+      prevUser.id === defaultUsers[0].id ? defaultUsers[1] : defaultUsers[0]
+    );
+  };
   const [comment, setComment] = useState("");
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,17 +40,34 @@ export default function CommentSection() {
 
   const handleSubmitComment = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the comment to your backend
-    console.log("Submitted comment:", comment);
+    if (comment.trim() === "") return;
+
+    const newComment: Comment = {
+      user: currentUser,
+      text: comment,
+    };
+
+    setComments((prevComments) => [...prevComments, newComment]);
     setComment("");
+  };
+
+  useEffect(() => {
+    console.log("Current user:", currentUser.name);
+  }, [currentUser]);
   };
 
   return (
     <div className="mt-4 border-t border-gray-200 dark:border-gray-700 pt-4">
-      <form onSubmit={handleSubmitComment} className="flex items-center">
+      <div className="mb-4">
+        <Button onClick={handleUserChange} className="text-blue-600 dark:text-blue-400">
+          Switch User
+        </Button>
+        <span className="ml-2">Current User: {currentUser.name}</span>
+      </div>
+      <form onSubmit={handleSubmitComment} className="flex items-center mb-4">
         <Avatar className="w-8 h-8 mr-2">
-          <AvatarImage src="" alt="User" />
-          <AvatarFallback>U</AvatarFallback>
+          <AvatarImage src={currentUser.avatar} alt={currentUser.name} />
+          <AvatarFallback>{currentUser.name.charAt(0)}</AvatarFallback>
         </Avatar>
         <Input
           className="flex-1 bg-gray-100 dark:bg-gray-800 border-none"
@@ -42,6 +85,19 @@ export default function CommentSection() {
           <span className="sr-only">Submit comment</span>
         </Button>
       </form>
+      <div>
+        {comments.map((comment, index) => (
+          <div key={index} className="flex items-center mb-2">
+            <Avatar className="w-8 h-8 mr-2">
+              <AvatarImage src={comment.user.avatar} alt={comment.user.name} />
+              <AvatarFallback>{comment.user.name.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <div>
+              <span className="font-bold">{comment.user.name}</span>: {comment.text}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
