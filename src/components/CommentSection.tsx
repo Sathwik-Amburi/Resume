@@ -26,11 +26,13 @@ export default function CommentSection() {
   const [currentUser, setCurrentUser] = useState<User>(defaultUsers[0]);
   const [comments, setComments] = useState<Comment[]>([]);
 
+  const [comment, setComment] = useState("");
+
   const handleUserChange = () => {
     setCurrentUser((prevUser) =>
       prevUser.id === defaultUsers[0].id ? defaultUsers[1] : defaultUsers[0]
     );
-  const [comment, setComment] = useState("");
+  };
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value);
@@ -51,8 +53,7 @@ export default function CommentSection() {
 
   useEffect(() => {
     console.log("Current user:", currentUser.name);
-  }, [currentUser]);
-  };
+  }, []);
 
   return (
     <div className="mt-4 border-t border-gray-200 dark:border-gray-700 pt-4">
