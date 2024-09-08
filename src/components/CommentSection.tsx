@@ -97,7 +97,7 @@ export default function CommentSection() {
             type="submit"
             variant="ghost"
             size="icon"
-            className="absolute right-0 top-0 mt-1 mr-1 text-blue-600 dark:text-blue-400"
+            className="absolute right-0 top-0 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-600"
           >
             <Send className="h-4 w-4" />
             <span className="sr-only">Send comment</span>
