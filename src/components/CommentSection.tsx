@@ -104,7 +104,7 @@ export default function CommentSection() {
             <span className="sr-only">Toggle emoji picker</span>
           </Button>
           {showEmojiPicker && (
-            <div className="absolute z-10 mt-2">
+            <div className="absolute z-10 mt-2 right-0">
               <EmojiPicker onEmojiClick={handleEmojiClick} />
             </div>
           )}
