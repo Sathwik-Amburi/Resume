@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import EmojiPicker from "emoji-picker-react";
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -41,7 +41,7 @@ export default function CommentSection() {
     setComment(e.target.value);
   };
 
-  const handleEmojiClick = (event: any, emojiObject: any) => {
+  const handleEmojiClick = (event: MouseEvent, emojiObject: EmojiClickData) => {
     setComment((prevComment) => prevComment + emojiObject.emoji);
   };
 
