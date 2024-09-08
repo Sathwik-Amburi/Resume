@@ -49,6 +49,7 @@ export default function CommentSection() {
   const toggleEmojiPicker = () => {
     setShowEmojiPicker((prev) => !prev);
   };
+  const handleSubmitComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (comment.trim() === "") return;
 
@@ -63,7 +64,7 @@ export default function CommentSection() {
 
   useEffect(() => {
     console.log("Current user:", currentUser.name);
-  }, [currentUser.name]);
+  }, [currentUser]);
 
   return (
     <div className="mt-4 border-t border-gray-200 dark:border-gray-700 pt-4">
