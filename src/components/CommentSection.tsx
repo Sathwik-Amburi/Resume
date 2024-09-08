@@ -24,14 +24,12 @@ const defaultUsers: User[] = [
 
 export default function CommentSection() {
   const [currentUser, setCurrentUser] = useState<User>(defaultUsers[0]);
-  const [comment, setComment] = useState("");
   const [comments, setComments] = useState<Comment[]>([]);
 
   const handleUserChange = () => {
     setCurrentUser((prevUser) =>
       prevUser.id === defaultUsers[0].id ? defaultUsers[1] : defaultUsers[0]
     );
-  };
   const [comment, setComment] = useState("");
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
