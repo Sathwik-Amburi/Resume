@@ -4,7 +4,7 @@ import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Smile } from "lucide-react";
+import { Smile, Send } from "lucide-react";
 
 interface User {
   id: number;
@@ -86,12 +86,23 @@ export default function CommentSection() {
           <AvatarImage src={currentUser.avatar} alt={currentUser.name} />
           <AvatarFallback>{currentUser.name.charAt(0)}</AvatarFallback>
         </Avatar>
-        <Input
-          className="flex-1 bg-gray-100 dark:bg-gray-800 border-none"
-          placeholder="Write a comment..."
-          value={comment}
-          onChange={handleCommentChange}
-        />
+        <div className="relative flex-1">
+          <Input
+            className="w-full bg-gray-100 dark:bg-gray-800 border-none pr-10"
+            placeholder="Write a comment..."
+            value={comment}
+            onChange={handleCommentChange}
+          />
+          <Button
+            type="submit"
+            variant="ghost"
+            size="icon"
+            className="absolute right-0 top-0 mt-1 mr-1 text-blue-600 dark:text-blue-400"
+          >
+            <Send className="h-4 w-4" />
+            <span className="sr-only">Send comment</span>
+          </Button>
+        </div>
         <div className="relative">
           <Button
             type="button"
