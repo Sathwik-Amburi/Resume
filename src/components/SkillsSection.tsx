@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -35,40 +35,46 @@ export interface SkillsSectionProps {
   skills: Skill[];
 }
 
-const SkillsSection: React.FC<SkillsSectionProps> = ({ title, skills }) => {
-  const isDesktop = useMediaQuery("(min-width: 768px)");
-  const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  const SkillContent = ({ skill }: { skill: Skill }) => (
-    <div className="space-y-2">
-      <p>
-        <span className="font-semibold">Proficiency:</span> {skill.proficiency}
-      </p>
-      <p>
-        <span className="font-semibold">Years of Experience:</span>{" "}
-        {skill.yearsOfExperience}
-      </p>
-      <div>
-        <h3 className="font-semibold">Projects:</h3>
-        <ul className="list-disc list-inside">
-          {skill.projects.map((project, index) => (
-            <li key={index}>{project}</li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h3 className="font-semibold">Certifications:</h3>
-        <ul className="list-disc list-inside">
-          {skill.certifications.map((cert, index) => (
-            <li key={index}>{cert}</li>
-          ))}
-        </ul>
-      </div>
+const SkillContent = React.memo(({ skill }: { skill: Skill }) => (
+  <div className="space-y-2">
+    <p>
+      <span className="font-semibold">Proficiency:</span> {skill.proficiency}
+    </p>
+    <p>
+      <span className="font-semibold">Years of Experience:</span>{" "}
+      {skill.yearsOfExperience}
+    </p>
+    <div>
+      <h3 className="font-semibold">Projects:</h3>
+      <ul className="list-disc list-inside">
+        {skill.projects.map((project, index) => (
+          <li key={index}>{project}</li>
+        ))}
+      </ul>
     </div>
-  );
+    <div>
+      <h3 className="font-semibold">Certifications:</h3>
+      <ul className="list-disc list-inside">
+        {skill.certifications.map((cert, index) => (
+          <li key={index}>{cert}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+));
 
-  const DesktopView = () => (
+SkillContent.displayName = "SkillContent";
+
+const DesktopView = React.memo(
+  ({
+    title,
+    skills,
+    onSelectSkill,
+  }: {
+    title: string;
+    skills: Skill[];
+    onSelectSkill: (skill: Skill) => void;
+  }) => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="w-full justify-between">
@@ -79,8 +85,8 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ title, skills }) => {
       <DropdownMenuContent className="w-56">
         {skills.map((skill, index) => (
           <DropdownMenuItem
-            key={index}
-            onSelect={() => setSelectedSkill(skill)}
+            key={skill.name}
+            onSelect={() => onSelectSkill(skill)}
           >
             <Badge variant="secondary" className="mr-2">
               {index + 1}
@@ -90,10 +96,30 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ title, skills }) => {
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
+);
 
-  const MobileView = () => (
-    <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+DesktopView.displayName = "DesktopView";
+
+const MobileView = React.memo(
+  ({
+    title,
+    skills,
+    selectedSkill,
+    onSelectSkill,
+    onBack,
+    isOpen,
+    onOpenChange,
+  }: {
+    title: string;
+    skills: Skill[];
+    selectedSkill: Skill | null;
+    onSelectSkill: (skill: Skill) => void;
+    onBack: () => void;
+    isOpen: boolean;
+    onOpenChange: (isOpen: boolean) => void;
+  }) => (
+    <Drawer open={isOpen} onOpenChange={onOpenChange}>
       <DrawerTrigger asChild>
         <Button variant="outline" className="w-full justify-between">
           {title}
@@ -108,11 +134,7 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ title, skills }) => {
         <div className="p-4 pb-0">
           {selectedSkill ? (
             <>
-              <Button
-                variant="ghost"
-                className="mb-4"
-                onClick={() => setSelectedSkill(null)}
-              >
+              <Button variant="ghost" className="mb-4" onClick={onBack}>
                 <ChevronLeft className="mr-2 h-4 w-4" />
                 Back to Skills
               </Button>
@@ -123,10 +145,10 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ title, skills }) => {
             <div className="space-y-2">
               {skills.map((skill, index) => (
                 <Button
-                  key={index}
+                  key={skill.name}
                   variant="outline"
                   className="w-full justify-start"
-                  onClick={() => setSelectedSkill(skill)}
+                  onClick={() => onSelectSkill(skill)}
                 >
                   <Badge variant="secondary" className="mr-2">
                     {index + 1}
@@ -144,11 +166,59 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ title, skills }) => {
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
+  )
+);
+
+MobileView.displayName = "MobileView";
+
+const SkillsSection: React.FC<SkillsSectionProps> = ({ title, skills }) => {
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const handleSelectSkill = useCallback(
+    (skill: Skill) => {
+      setSelectedSkill(skill);
+      if (!isDesktop) {
+        setIsDrawerOpen(true);
+      }
+    },
+    [isDesktop]
+  );
+
+  const handleBack = useCallback(() => {
+    setSelectedSkill(null);
+  }, []);
+
+  const memoizedDesktopView = useMemo(
+    () => (
+      <DesktopView
+        title={title}
+        skills={skills}
+        onSelectSkill={handleSelectSkill}
+      />
+    ),
+    [title, skills, handleSelectSkill]
+  );
+
+  const memoizedMobileView = useMemo(
+    () => (
+      <MobileView
+        title={title}
+        skills={skills}
+        selectedSkill={selectedSkill}
+        onSelectSkill={handleSelectSkill}
+        onBack={handleBack}
+        isOpen={isDrawerOpen}
+        onOpenChange={setIsDrawerOpen}
+      />
+    ),
+    [title, skills, selectedSkill, handleSelectSkill, handleBack, isDrawerOpen]
   );
 
   return (
     <div className="bg-background rounded-lg shadow p-6 mb-6">
-      {isDesktop ? <DesktopView /> : <MobileView />}
+      {isDesktop ? memoizedDesktopView : memoizedMobileView}
       {isDesktop && (
         <div className="mt-4">
           {selectedSkill ? (

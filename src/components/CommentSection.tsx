@@ -18,8 +18,8 @@ interface Comment {
 }
 
 const defaultUsers: User[] = [
-  { id: 1, name: "Alice", avatar: "/avatars/alice.png" },
-  { id: 2, name: "Bob", avatar: "/avatars/bob.png" },
+  { id: 1, name: "Alice", avatar: "" },
+  { id: 2, name: "Bob", avatar: "" },
 ];
 
 export default function CommentSection() {

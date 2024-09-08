@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useCallback, useMemo, memo } from "react";
 import ModeToggle from "@/components/Toggle";
 import { HeaderProps } from "@/types/types";
 import {
@@ -30,38 +30,46 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { motion } from "framer-motion";
+import { useId } from "react";
 
 interface ExtendedHeaderProps extends HeaderProps {
   activeTab: string;
   onTabChange: (value: string) => void;
 }
 
-export default function Header({
-  name,
-  avatar,
-  activeTab,
-  onTabChange,
-}: ExtendedHeaderProps) {
-  const [isSearchVisible, setIsSearchVisible] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+const tabs = [
+  { value: "experience", icon: Briefcase, label: "Experience" },
+  { value: "education", icon: GraduationCap, label: "Education" },
+  { value: "projects", icon: Code, label: "Projects" },
+  { value: "publications", icon: BookOpen, label: "Publications" },
+];
 
-  useEffect(() => {
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 640);
-    };
-    checkIsMobile();
-    window.addEventListener("resize", checkIsMobile);
-    return () => window.removeEventListener("resize", checkIsMobile);
-  }, []);
+const FacebookLogo = memo(() => (
+  <svg
+    className="w-8 h-8 text-[#1877F2] dark:text-[#4599FF]"
+    viewBox="0 0 36 36"
+    fill="currentColor"
+    role="img"
+    aria-label="Facebook logo"
+  >
+    <path d="M15 35.8C6.5 34.3 0 26.9 0 18 0 8.1 8.1 0 18 0s18 8.1 18 18c0 8.9-6.5 16.3-15 17.8l-1-.8h-4l-1 .8z" />
+    <path
+      fill="#fff"
+      d="M25 23l.8-5H21v-3.5c0-1.4.5-2.5 2.7-2.5H26V7.4c-1.3-.2-2.7-.4-4-.4-4.1 0-7 2.5-7 7v4h-4.5v5H15v12.7c1 .2 2 .3 3 .3s2-.1 3-.3V23h4z"
+    />
+  </svg>
+));
 
-  const tabs = [
-    { value: "experience", icon: Briefcase, label: "Experience" },
-    { value: "education", icon: GraduationCap, label: "Education" },
-    { value: "projects", icon: Code, label: "Projects" },
-    { value: "publications", icon: BookOpen, label: "Publications" },
-  ];
+FacebookLogo.displayName = "FacebookLogo";
 
-  const TabContent = () => (
+const TabContent = memo(
+  ({
+    activeTab,
+    onTabChange,
+  }: {
+    activeTab: string;
+    onTabChange: (value: string) => void;
+  }) => (
     <Tabs
       value={activeTab}
       onValueChange={onTabChange}
@@ -109,25 +117,39 @@ export default function Header({
         ))}
       </TabsList>
     </Tabs>
+  )
+);
+
+TabContent.displayName = "TabContent";
+
+export default function Header({
+  name,
+  avatar,
+  activeTab,
+  onTabChange,
+}: ExtendedHeaderProps) {
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const isMobile = useMemo(() => {
+    if (typeof window !== "undefined") {
+      return window.innerWidth < 640;
+    }
+    return false;
+  }, []);
+
+  const handleTabChange = useCallback(
+    (value: string) => {
+      onTabChange(value);
+    },
+    [onTabChange]
   );
+
+  const searchId = useId();
 
   return (
     <header className="shadow-sm sticky top-0 z-10 bg-background">
       <div className="max-w-7xl mx-auto px-2 sm:px-4 py-1 flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <svg
-            className="w-8 h-8 text-[#1877F2] dark:text-[#4599FF]"
-            viewBox="0 0 36 36"
-            fill="currentColor"
-            role="img"
-            aria-label="Facebook logo"
-          >
-            <path d="M15 35.8C6.5 34.3 0 26.9 0 18 0 8.1 8.1 0 18 0s18 8.1 18 18c0 8.9-6.5 16.3-15 17.8l-1-.8h-4l-1 .8z" />
-            <path
-              fill="#fff"
-              d="M25 23l.8-5H21v-3.5c0-1.4.5-2.5 2.7-2.5H26V7.4c-1.3-.2-2.7-.4-4-.4-4.1 0-7 2.5-7 7v4h-4.5v5H15v12.7c1 .2 2 .3 3 .3s2-.1 3-.3V23h4z"
-            />
-          </svg>
+          <FacebookLogo />
           <div
             className={`relative ${
               isSearchVisible ? "flex" : "hidden"
@@ -135,12 +157,15 @@ export default function Header({
           >
             <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
             <Input
+              id={searchId}
               className="pl-8 pr-2 py-1 w-full text-sm placeholder-gray-500 border-none rounded-full focus:ring-2 focus:ring-[#1877F2] dark:focus:ring-[#4599FF]"
               placeholder={`Search Resume`}
             />
           </div>
         </div>
-        {!isMobile && <TabContent />}
+        {!isMobile && (
+          <TabContent activeTab={activeTab} onTabChange={handleTabChange} />
+        )}
         <div className="flex items-center space-x-2 sm:space-x-3">
           {isMobile && (
             <>
@@ -163,7 +188,7 @@ export default function Header({
                   {tabs.map((tab) => (
                     <DropdownMenuItem
                       key={tab.value}
-                      onClick={() => onTabChange(tab.value)}
+                      onClick={() => handleTabChange(tab.value)}
                       className="flex items-center"
                     >
                       <tab.icon className="mr-2 h-4 w-4" />
