@@ -41,7 +41,7 @@ export default function CommentSection() {
     setComment(e.target.value);
   };
 
-  const handleEmojiClick = (event: MouseEvent, emojiObject: EmojiClickData) => {
+  const handleEmojiClick = (emojiObject: EmojiClickData) => {
     setComment((prevComment) => prevComment + emojiObject.emoji);
   };
 
