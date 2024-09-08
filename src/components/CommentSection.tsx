@@ -103,7 +103,6 @@ export default function CommentSection() {
             </div>
           </div>
         ))}
-      </div>
     </div>
   );
 }
