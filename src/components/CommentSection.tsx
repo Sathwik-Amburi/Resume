@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import EmojiPicker from 'emoji-picker-react';
+import EmojiPicker from "emoji-picker-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -29,7 +29,9 @@ export default function CommentSection() {
   const [comment, setComment] = useState("");
 
   const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedUser = defaultUsers.find(user => user.id === parseInt(e.target.value));
+    const selectedUser = defaultUsers.find(
+      (user) => user.id === parseInt(e.target.value)
+    );
     if (selectedUser) {
       setCurrentUser(selectedUser);
     }
@@ -40,7 +42,7 @@ export default function CommentSection() {
   };
 
   const handleEmojiClick = (event: any, emojiObject: any) => {
-    setComment(prevComment => prevComment + emojiObject.emoji);
+    setComment((prevComment) => prevComment + emojiObject.emoji);
   };
 
   const handleSubmitComment = (e: React.FormEvent<HTMLFormElement>) => {
@@ -63,9 +65,15 @@ export default function CommentSection() {
   return (
     <div className="mt-4 border-t border-gray-200 dark:border-gray-700 pt-4">
       <div className="mb-4">
-        <select onChange={handleUserChange} value={currentUser.id} className="text-blue-600 dark:text-blue-400">
-          {defaultUsers.map(user => (
-            <option key={user.id} value={user.id}>{user.name}</option>
+        <select
+          onChange={handleUserChange}
+          value={currentUser.id}
+          className="text-blue-600 dark:text-blue-400"
+        >
+          {defaultUsers.map((user) => (
+            <option key={user.id} value={user.id}>
+              {user.name}
+            </option>
           ))}
         </select>
       </div>
@@ -91,18 +99,18 @@ export default function CommentSection() {
         </Button>
       </form>
       <EmojiPicker onEmojiClick={handleEmojiClick} />
-        {comments.map((comment, index) => (
-          <div key={index} className="flex items-center mb-2">
-            <Avatar className="w-8 h-8 mr-2">
-              <AvatarImage src={comment.user.avatar} alt={comment.user.name} />
-              <AvatarFallback>{comment.user.name.charAt(0)}</AvatarFallback>
-            </Avatar>
-            <div>
-              <span className="font-bold">{comment.user.name}</span>:{" "}
-              {comment.text}
-            </div>
+      {comments.map((comment, index) => (
+        <div key={index} className="flex items-center mb-2">
+          <Avatar className="w-8 h-8 mr-2">
+            <AvatarImage src={comment.user.avatar} alt={comment.user.name} />
+            <AvatarFallback>{comment.user.name.charAt(0)}</AvatarFallback>
+          </Avatar>
+          <div>
+            <span className="font-bold">{comment.user.name}</span>:{" "}
+            {comment.text}
           </div>
-        ))}
+        </div>
+      ))}
     </div>
   );
 }
