@@ -27,6 +27,7 @@ export default function CommentSection() {
   const [comments, setComments] = useState<Comment[]>([]);
 
   const [comment, setComment] = useState("");
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedUser = defaultUsers.find(
@@ -45,7 +46,9 @@ export default function CommentSection() {
     setComment((prevComment) => prevComment + emojiObject.emoji);
   };
 
-  const handleSubmitComment = (e: React.FormEvent<HTMLFormElement>) => {
+  const toggleEmojiPicker = () => {
+    setShowEmojiPicker((prev) => !prev);
+  };
     e.preventDefault();
     if (comment.trim() === "") return;
 
@@ -94,11 +97,11 @@ export default function CommentSection() {
           size="icon"
           className="ml-2 text-blue-600 dark:text-blue-400"
         >
-          <Smile className="h-4 w-4" />
+          <Smile className="h-4 w-4" onClick={toggleEmojiPicker} />
           <span className="sr-only">Submit comment</span>
         </Button>
       </form>
-      <EmojiPicker onEmojiClick={handleEmojiClick} />
+      {showEmojiPicker && <EmojiPicker onEmojiClick={handleEmojiClick} />}
       {comments.map((comment, index) => (
         <div key={index} className="flex items-center mb-2">
           <Avatar className="w-8 h-8 mr-2">
