@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback, useMemo, memo } from 'react';
+import Image from 'next/image';
 import ModeToggle from '@/components/Toggle';
 import { HeaderProps } from '@/types/types';
 import {
@@ -12,7 +13,7 @@ import {
   ChevronDown,
   Menu,
 } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
@@ -206,14 +207,21 @@ export default function Header({
                 size="sm"
                 className="flex items-center space-x-2"
               >
-                <Avatar className="w-7 h-7 border border-[#1877F2] dark:border-[#4599FF]">
-                  <AvatarImage src={avatar} alt={name} />
-                  <AvatarFallback className="bg-[#1877F2] text-white text-xs">
+                <Avatar className="w-7 h-7">
+                  <Image
+                    src={avatar}
+                    alt={name}
+                    width={28}
+                    height={28}
+                    className="object-cover rounded-full"
+                    priority
+                  />
+                  {/* <AvatarFallback className="bg-[#1877F2] text-white text-xs">
                     {name
                       .split(' ')
                       .map((n: string) => n[0])
                       .join('')}
-                  </AvatarFallback>
+                  </AvatarFallback> */}
                 </Avatar>
                 <span className="font-semibold text-sm hidden sm:inline">
                   {name}

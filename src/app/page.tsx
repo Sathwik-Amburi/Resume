@@ -31,6 +31,8 @@ export default function ResumePage() {
               phone={personalData.phone}
               email={personalData.email}
               avatar={personalData.avatar}
+              github="https://github.com/Sathwik-Amburi"
+              linkedin="https://www.linkedin.com/in/sathwik-amburi/"
             />
             <div className="md:hidden mt-6">
               <SkillsSection

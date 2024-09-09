@@ -1,14 +1,20 @@
 'use client';
 
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import {
   Drawer,
   DrawerClose,
@@ -19,8 +25,13 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
-import { ChevronLeft, ChevronDown } from 'lucide-react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { ChevronDown, ChevronRight, ChevronLeft, Info } from 'lucide-react';
 
 export interface Skill {
   name: string;
@@ -65,180 +76,144 @@ const SkillContent = React.memo(({ skill }: { skill: Skill }) => (
 
 SkillContent.displayName = 'SkillContent';
 
-const DesktopView = React.memo(
-  ({
-    title,
-    skills,
-    onSelectSkill,
-  }: {
-    title: string;
-    skills: Skill[];
-    onSelectSkill: (skill: Skill) => void;
-  }) => (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="w-full justify-between">
-          {title}
-          <ChevronDown className="h-4 w-4 opacity-50" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
-        {skills.map((skill, index) => (
-          <DropdownMenuItem
-            key={skill.name}
-            onSelect={() => onSelectSkill(skill)}
-          >
-            <Badge variant="secondary" className="mr-2">
-              {index + 1}
-            </Badge>
-            {skill.name}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
-);
+const SkillsSidebar: React.FC<SkillsSectionProps> = ({ title, skills }) => {
+  const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-DesktopView.displayName = 'DesktopView';
+  const handleSelectSkill = (skill: Skill) => {
+    setSelectedSkill(skill);
+    setIsDialogOpen(true);
+  };
 
-const MobileView = React.memo(
-  ({
-    title,
-    skills,
-    selectedSkill,
-    onSelectSkill,
-    onBack,
-    isOpen,
-    onOpenChange,
-  }: {
-    title: string;
-    skills: Skill[];
-    selectedSkill: Skill | null;
-    onSelectSkill: (skill: Skill) => void;
-    onBack: () => void;
-    isOpen: boolean;
-    onOpenChange: (isOpen: boolean) => void;
-  }) => (
-    <Drawer open={isOpen} onOpenChange={onOpenChange}>
-      <DrawerTrigger asChild>
-        <Button variant="outline" className="w-full justify-between">
-          {title}
-          <ChevronDown className="h-4 w-4 opacity-50" />
-        </Button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader className="text-left">
-          <DrawerTitle>{title}</DrawerTitle>
-          <DrawerDescription>Select a skill to view details</DrawerDescription>
-        </DrawerHeader>
-        <div className="p-4 pb-0">
-          {selectedSkill ? (
-            <>
-              <Button variant="ghost" className="mb-4" onClick={onBack}>
-                <ChevronLeft className="mr-2 h-4 w-4" />
-                Back to Skills
-              </Button>
-              <h3 className="font-bold text-lg mb-2">{selectedSkill.name}</h3>
-              <SkillContent skill={selectedSkill} />
-            </>
-          ) : (
-            <div className="space-y-2">
-              {skills.map((skill, index) => (
+  const handleBack = () => {
+    setSelectedSkill(null);
+  };
+
+  return (
+    <div className="bg-background rounded-lg shadow">
+      {/* Desktop View */}
+      <div className="hidden md:block">
+        <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+          <CollapsibleTrigger asChild>
+            <Button variant="ghost" className="w-full justify-between p-4">
+              {title}
+              {isOpen ? (
+                <ChevronDown className="h-4 w-4" />
+              ) : (
+                <ChevronRight className="h-4 w-4" />
+              )}
+            </Button>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <div className="p-4 space-y-2">
+              {skills.map((skill) => (
                 <Button
                   key={skill.name}
                   variant="outline"
-                  className="w-full justify-start"
-                  onClick={() => onSelectSkill(skill)}
+                  className="w-full justify-between p-2 h-auto"
+                  onClick={() => handleSelectSkill(skill)}
                 >
-                  <Badge variant="secondary" className="mr-2">
-                    {index + 1}
-                  </Badge>
-                  {skill.name}
+                  <span>{skill.name}</span>
+                  <div className="flex items-center space-x-2">
+                    <Badge variant="secondary">{skill.proficiency}</Badge>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Info className="h-4 w-4 text-muted-foreground" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Years of Experience: {skill.yearsOfExperience}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
                 </Button>
               ))}
             </div>
-          )}
-        </div>
-        <DrawerFooter>
-          <DrawerClose asChild>
-            <Button variant="outline">Close</Button>
-          </DrawerClose>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
-  )
-);
+          </CollapsibleContent>
+        </Collapsible>
 
-MobileView.displayName = 'MobileView';
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{selectedSkill?.name}</DialogTitle>
+              <DialogDescription>Skill details</DialogDescription>
+            </DialogHeader>
+            {selectedSkill && <SkillContent skill={selectedSkill} />}
+          </DialogContent>
+        </Dialog>
+      </div>
 
-const SkillsSection: React.FC<SkillsSectionProps> = ({ title, skills }) => {
-  const isDesktop = useMediaQuery('(min-width: 768px)');
-  const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  const handleSelectSkill = useCallback(
-    (skill: Skill) => {
-      setSelectedSkill(skill);
-      if (!isDesktop) {
-        setIsDrawerOpen(true);
-      }
-    },
-    [isDesktop]
-  );
-
-  const handleBack = useCallback(() => {
-    setSelectedSkill(null);
-  }, []);
-
-  const memoizedDesktopView = useMemo(
-    () => (
-      <DesktopView
-        title={title}
-        skills={skills}
-        onSelectSkill={handleSelectSkill}
-      />
-    ),
-    [title, skills, handleSelectSkill]
-  );
-
-  const memoizedMobileView = useMemo(
-    () => (
-      <MobileView
-        title={title}
-        skills={skills}
-        selectedSkill={selectedSkill}
-        onSelectSkill={handleSelectSkill}
-        onBack={handleBack}
-        isOpen={isDrawerOpen}
-        onOpenChange={setIsDrawerOpen}
-      />
-    ),
-    [title, skills, selectedSkill, handleSelectSkill, handleBack, isDrawerOpen]
-  );
-
-  return (
-    <div className="bg-background rounded-lg shadow p-6 mb-6">
-      {isDesktop ? memoizedDesktopView : memoizedMobileView}
-      {isDesktop && (
-        <div className="mt-4">
-          {selectedSkill ? (
-            <>
-              <h3 className="font-bold text-lg mb-2">{selectedSkill.name}</h3>
-              <SkillContent skill={selectedSkill} />
-            </>
-          ) : (
-            <div className="text-center text-muted-foreground">
-              <p>Select a skill to view its details.</p>
-              <p>
-                You can see information about proficiency, years of experience,
-                projects, and certifications.
-              </p>
+      {/* Mobile View */}
+      <div className="md:hidden">
+        <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+          <DrawerTrigger asChild>
+            <Button variant="ghost" className="w-full justify-between p-4">
+              {title}
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader className="text-left">
+              <DrawerTitle>{title}</DrawerTitle>
+              <DrawerDescription>
+                Select a skill to view details
+              </DrawerDescription>
+            </DrawerHeader>
+            <div className="px-4 py-2">
+              {selectedSkill ? (
+                <>
+                  <Button variant="ghost" className="mb-4" onClick={handleBack}>
+                    <ChevronLeft className="mr-2 h-4 w-4" />
+                    Back to Skills
+                  </Button>
+                  <h3 className="font-bold text-lg mb-2">
+                    {selectedSkill.name}
+                  </h3>
+                  <SkillContent skill={selectedSkill} />
+                </>
+              ) : (
+                <div className="space-y-2">
+                  {skills.map((skill) => (
+                    <Button
+                      key={skill.name}
+                      variant="outline"
+                      className="w-full justify-between p-2 h-auto"
+                      onClick={() => setSelectedSkill(skill)}
+                    >
+                      <span>{skill.name}</span>
+                      <div className="flex items-center space-x-2">
+                        <Badge variant="secondary">{skill.proficiency}</Badge>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Info className="h-4 w-4 text-muted-foreground" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>
+                                Years of Experience: {skill.yearsOfExperience}
+                              </p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
+                    </Button>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      )}
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button variant="outline">Close</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      </div>
     </div>
   );
 };
 
-export default SkillsSection;
+export default SkillsSidebar;
