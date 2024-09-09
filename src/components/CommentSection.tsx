@@ -1,10 +1,10 @@
-"use client";
-import { useState, useEffect } from "react";
-import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Smile, Send } from "lucide-react";
+'use client';
+import { useState, useEffect } from 'react';
+import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Smile, Send } from 'lucide-react';
 
 interface User {
   id: number;
@@ -18,15 +18,15 @@ interface Comment {
 }
 
 const defaultUsers: User[] = [
-  { id: 1, name: "Alice", avatar: "" },
-  { id: 2, name: "Bob", avatar: "" },
+  { id: 1, name: 'Alice', avatar: '' },
+  { id: 2, name: 'Bob', avatar: '' },
 ];
 
 export default function CommentSection() {
   const [currentUser, setCurrentUser] = useState<User>(defaultUsers[0]);
   const [comments, setComments] = useState<Comment[]>([]);
 
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -51,7 +51,7 @@ export default function CommentSection() {
   };
   const handleSubmitComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (comment.trim() === "") return;
+    if (comment.trim() === '') return;
 
     const newComment: Comment = {
       user: currentUser,
@@ -59,11 +59,11 @@ export default function CommentSection() {
     };
 
     setComments((prevComments) => [...prevComments, newComment]);
-    setComment("");
+    setComment('');
   };
 
   useEffect(() => {
-    console.log("Current user:", currentUser.name);
+    console.log('Current user:', currentUser.name);
   }, [currentUser]);
 
   return (
@@ -128,7 +128,7 @@ export default function CommentSection() {
             <AvatarFallback>{comment.user.name.charAt(0)}</AvatarFallback>
           </Avatar>
           <div>
-            <span className="font-bold">{comment.user.name}</span>:{" "}
+            <span className="font-bold">{comment.user.name}</span>:{' '}
             {comment.text}
           </div>
         </div>

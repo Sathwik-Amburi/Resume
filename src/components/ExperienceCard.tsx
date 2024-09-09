@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import React, { memo, useState, useCallback } from "react";
-import dynamic from "next/dynamic";
-import { Experience } from "@/types/types";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { ThumbsUp, MessageSquare, Share, Clock } from "lucide-react";
+import React, { memo, useState, useCallback } from 'react';
+import dynamic from 'next/dynamic';
+import { Experience } from '@/types/types';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { ThumbsUp, MessageSquare, Share, Clock } from 'lucide-react';
 
 const DynamicCommentSection = dynamic(
-  () => import("@/components/CommentSection"),
+  () => import('@/components/CommentSection'),
   {
     loading: () => <p>Loading comments...</p>,
   }
@@ -43,7 +43,7 @@ const ExperienceHeader = memo(
   )
 );
 
-ExperienceHeader.displayName = "ExperienceHeader";
+ExperienceHeader.displayName = 'ExperienceHeader';
 
 const ActionButton = memo(
   ({
@@ -63,18 +63,18 @@ const ActionButton = memo(
       variant="ghost"
       size="sm"
       className={`text-gray-600 dark:text-gray-400 ${
-        isActive ? "bg-gray-100 dark:bg-gray-800" : ""
+        isActive ? 'bg-gray-100 dark:bg-gray-800' : ''
       }`}
       onClick={onClick}
     >
-      <Icon className={`mr-2 h-4 w-4 ${isActive ? "text-blue-500" : ""}`} />
+      <Icon className={`mr-2 h-4 w-4 ${isActive ? 'text-blue-500' : ''}`} />
       <span className="hidden sm:inline">{label}</span>
       {count !== undefined && <span className="ml-1 text-xs">{count}</span>}
     </Button>
   )
 );
 
-ActionButton.displayName = "ActionButton";
+ActionButton.displayName = 'ActionButton';
 
 const ExperienceCard: React.FC<ExperienceCardProps> = memo(
   ({ type, company, location, jobTitle, date, description, onShare }) => {
@@ -125,6 +125,6 @@ const ExperienceCard: React.FC<ExperienceCardProps> = memo(
   }
 );
 
-ExperienceCard.displayName = "ExperienceCard";
+ExperienceCard.displayName = 'ExperienceCard';
 
 export default ExperienceCard;

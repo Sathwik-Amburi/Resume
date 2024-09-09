@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import ProfileInfo from "@/components/ProfileInfo";
-import EducationCard from "@/components/EducationCard";
-import Header from "@/components/Header";
-import personalData from "@/data/personalData";
-import SkillsSection from "@/components/SkillsSection";
-import ExperienceCard from "@/components/ExperienceCard";
-import ProjectCard from "@/components/ProjectCard";
-import PublicationCard from "@/components/PublicationCard";
+import React, { useState } from 'react';
+import ProfileInfo from '@/components/ProfileInfo';
+import EducationCard from '@/components/EducationCard';
+import Header from '@/components/Header';
+import personalData from '@/data/personalData';
+import SkillsSection from '@/components/SkillsSection';
+import ExperienceCard from '@/components/ExperienceCard';
+import ProjectCard from '@/components/ProjectCard';
+import PublicationCard from '@/components/PublicationCard';
 
 export default function ResumePage() {
-  const [activeTab, setActiveTab] = useState("experience");
+  const [activeTab, setActiveTab] = useState('experience');
 
   return (
     <div className="bg-gray-100 dark:bg-gray-900 min-h-screen">
@@ -46,7 +46,7 @@ export default function ResumePage() {
                 skills={personalData.softSkills}
               />
             </div>
-            {activeTab === "experience" && (
+            {activeTab === 'experience' && (
               <div className="mt-6">
                 <h2 className="text-2xl font-bold mb-4">Experience</h2>
                 {personalData.experiences.map((exp, index) => (
@@ -54,7 +54,7 @@ export default function ResumePage() {
                 ))}
               </div>
             )}
-            {activeTab === "education" && (
+            {activeTab === 'education' && (
               <div className="mt-6">
                 <h2 className="text-2xl font-bold mb-4">Education</h2>
                 {personalData.education.map((edu, index) => (
@@ -62,7 +62,7 @@ export default function ResumePage() {
                 ))}
               </div>
             )}
-            {activeTab === "projects" && (
+            {activeTab === 'projects' && (
               <div className="mt-6">
                 <h2 className="text-2xl font-bold mb-4">Projects</h2>
                 {personalData.projects.map((project, index) => (
@@ -70,7 +70,7 @@ export default function ResumePage() {
                 ))}
               </div>
             )}
-            {activeTab === "publications" && (
+            {activeTab === 'publications' && (
               <div className="mt-6">
                 <h2 className="text-2xl font-bold mb-4">Publications</h2>
                 {personalData.publications.map((publication, index) => (

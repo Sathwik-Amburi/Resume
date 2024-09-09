@@ -1,6 +1,6 @@
-import { ProfileInfoProps } from "@/types/types";
-import { MapPin, Phone, Mail } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ProfileInfoProps } from '@/types/types';
+import { MapPin, Phone, Mail } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const ProfileInfo: React.FC<ProfileInfoProps> = ({
   name,
@@ -15,9 +15,9 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
         <AvatarImage src={avatar} alt={name} />
         <AvatarFallback>
           {name
-            .split(" ")
+            .split(' ')
             .map((n: string) => n[0])
-            .join("")}
+            .join('')}
         </AvatarFallback>
       </Avatar>
       <div className="text-center sm:text-left">

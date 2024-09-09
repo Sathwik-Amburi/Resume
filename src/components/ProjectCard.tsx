@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react';
 import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
-import { ProjectProps } from "@/types/types";
+import { ProjectProps } from '@/types/types';
 
 const ProjectCard: React.FC<ProjectProps> = ({
   name,

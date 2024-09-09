@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react';
 import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ExternalLink } from "lucide-react";
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { ExternalLink } from 'lucide-react';
 
-import { PublicationProps } from "@/types/types";
+import { PublicationProps } from '@/types/types';
 
 const PublicationCard: React.FC<PublicationProps> = ({
   title,

@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
+import * as React from 'react';
+import { Moon, Sun } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
 export default function ModeToggle() {
   const { theme, setTheme } = useTheme();
@@ -12,15 +12,15 @@ export default function ModeToggle() {
 
   // useEffect to set the initial theme and mark the component as mounted
   React.useEffect(() => {
-    setTheme("light");
+    setTheme('light');
     setMounted(true);
   }, [setTheme]);
 
   const toggleTheme = () => {
-    if (theme === "light") {
-      setTheme("dark");
+    if (theme === 'light') {
+      setTheme('dark');
     } else {
-      setTheme("light");
+      setTheme('light');
     }
   };
 

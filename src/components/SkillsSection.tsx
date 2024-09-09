@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import React, { useState, useCallback, useMemo } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import React, { useState, useCallback, useMemo } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 import {
   Drawer,
   DrawerClose,
@@ -18,9 +18,9 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { ChevronLeft, ChevronDown } from "lucide-react";
+} from '@/components/ui/drawer';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { ChevronLeft, ChevronDown } from 'lucide-react';
 
 export interface Skill {
   name: string;
@@ -41,7 +41,7 @@ const SkillContent = React.memo(({ skill }: { skill: Skill }) => (
       <span className="font-semibold">Proficiency:</span> {skill.proficiency}
     </p>
     <p>
-      <span className="font-semibold">Years of Experience:</span>{" "}
+      <span className="font-semibold">Years of Experience:</span>{' '}
       {skill.yearsOfExperience}
     </p>
     <div>
@@ -63,7 +63,7 @@ const SkillContent = React.memo(({ skill }: { skill: Skill }) => (
   </div>
 ));
 
-SkillContent.displayName = "SkillContent";
+SkillContent.displayName = 'SkillContent';
 
 const DesktopView = React.memo(
   ({
@@ -99,7 +99,7 @@ const DesktopView = React.memo(
   )
 );
 
-DesktopView.displayName = "DesktopView";
+DesktopView.displayName = 'DesktopView';
 
 const MobileView = React.memo(
   ({
@@ -169,10 +169,10 @@ const MobileView = React.memo(
   )
 );
 
-MobileView.displayName = "MobileView";
+MobileView.displayName = 'MobileView';
 
 const SkillsSection: React.FC<SkillsSectionProps> = ({ title, skills }) => {
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const isDesktop = useMediaQuery('(min-width: 768px)');
   const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 

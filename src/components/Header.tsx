@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState, useCallback, useMemo, memo } from "react";
-import ModeToggle from "@/components/Toggle";
-import { HeaderProps } from "@/types/types";
+import { useState, useCallback, useMemo, memo } from 'react';
+import ModeToggle from '@/components/Toggle';
+import { HeaderProps } from '@/types/types';
 import {
   Search,
   Briefcase,
@@ -11,26 +11,26 @@ import {
   BookOpen,
   ChevronDown,
   Menu,
-} from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+} from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+} from '@/components/ui/dropdown-menu';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { motion } from "framer-motion";
-import { useId } from "react";
+} from '@/components/ui/tooltip';
+import { motion } from 'framer-motion';
+import { useId } from 'react';
 
 interface ExtendedHeaderProps extends HeaderProps {
   activeTab: string;
@@ -38,10 +38,10 @@ interface ExtendedHeaderProps extends HeaderProps {
 }
 
 const tabs = [
-  { value: "experience", icon: Briefcase, label: "Experience" },
-  { value: "education", icon: GraduationCap, label: "Education" },
-  { value: "projects", icon: Code, label: "Projects" },
-  { value: "publications", icon: BookOpen, label: "Publications" },
+  { value: 'experience', icon: Briefcase, label: 'Experience' },
+  { value: 'education', icon: GraduationCap, label: 'Education' },
+  { value: 'projects', icon: Code, label: 'Projects' },
+  { value: 'publications', icon: BookOpen, label: 'Publications' },
 ];
 
 const FacebookLogo = memo(() => (
@@ -60,7 +60,7 @@ const FacebookLogo = memo(() => (
   </svg>
 ));
 
-FacebookLogo.displayName = "FacebookLogo";
+FacebookLogo.displayName = 'FacebookLogo';
 
 const TabContent = memo(
   ({
@@ -84,15 +84,15 @@ const TabContent = memo(
                   value={tab.value}
                   className={`flex-1 relative group px-2 py-1.5 rounded-md transition-colors duration-200 ${
                     activeTab === tab.value
-                      ? "bg-[#E7F3FF] dark:bg-[#263951]"
-                      : "hover:bg-gray-100 dark:hover:bg-gray-800"
+                      ? 'bg-[#E7F3FF] dark:bg-[#263951]'
+                      : 'hover:bg-gray-100 dark:hover:bg-gray-800'
                   }`}
                 >
                   <tab.icon
                     className={`w-5 h-5 mx-auto transition-colors duration-200 ${
                       activeTab === tab.value
-                        ? "text-[#1877F2] dark:text-[#4599FF]"
-                        : "text-gray-500 dark:text-gray-400"
+                        ? 'text-[#1877F2] dark:text-[#4599FF]'
+                        : 'text-gray-500 dark:text-gray-400'
                     }`}
                   />
                   {activeTab === tab.value && (
@@ -101,7 +101,7 @@ const TabContent = memo(
                       layoutId="underline"
                       initial={false}
                       transition={{
-                        type: "spring",
+                        type: 'spring',
                         stiffness: 500,
                         damping: 30,
                       }}
@@ -120,7 +120,7 @@ const TabContent = memo(
   )
 );
 
-TabContent.displayName = "TabContent";
+TabContent.displayName = 'TabContent';
 
 export default function Header({
   name,
@@ -130,7 +130,7 @@ export default function Header({
 }: ExtendedHeaderProps) {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const isMobile = useMemo(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       return window.innerWidth < 640;
     }
     return false;
@@ -152,7 +152,7 @@ export default function Header({
           <FacebookLogo />
           <div
             className={`relative ${
-              isSearchVisible ? "flex" : "hidden"
+              isSearchVisible ? 'flex' : 'hidden'
             } sm:flex flex-1 max-w-[200px]`}
           >
             <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -210,9 +210,9 @@ export default function Header({
                   <AvatarImage src={avatar} alt={name} />
                   <AvatarFallback className="bg-[#1877F2] text-white text-xs">
                     {name
-                      .split(" ")
+                      .split(' ')
                       .map((n: string) => n[0])
-                      .join("")}
+                      .join('')}
                   </AvatarFallback>
                 </Avatar>
                 <span className="font-semibold text-sm hidden sm:inline">

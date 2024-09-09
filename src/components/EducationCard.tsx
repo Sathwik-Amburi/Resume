@@ -1,4 +1,4 @@
-import { Education } from "@/types/types";
+import { Education } from '@/types/types';
 const EducationCard: React.FC<Education> = ({ type, institution, date }) => (
   <div className="bg-background rounded-lg shadow p-6 mb-6">
     <h2 className="text-xl font-bold mb-2">{type}</h2>
