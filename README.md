@@ -20,6 +20,34 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Project Structure
+
+This project is organized as follows:
+
+- `src/app`: Contains the main application files, including global styles and layout components.
+- `src/components`: Houses reusable UI components such as cards, buttons, and modals.
+- `src/data`: Contains data files used throughout the application.
+- `src/hooks`: Custom React hooks for various functionalities.
+- `src/lib`: Utility functions and helpers.
+- `src/types`: TypeScript type definitions for the project.
+
+## Key Components
+
+- **ProfileInfo**: Displays user profile information including name, location, and contact details.
+- **ExperienceCard**: Showcases professional experiences with details like company, role, and duration.
+- **SkillsSection**: Lists skills with proficiency levels and related projects.
+- **ProjectCard**: Highlights projects with descriptions and technologies used.
+- **PublicationCard**: Details publications with titles, publishers, and links.
+
+## Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and ensure they are well-tested.
+4. Submit a pull request with a detailed description of your changes.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
