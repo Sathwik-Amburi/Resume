@@ -39,6 +39,14 @@ This project is organized as follows:
 - **ProjectCard**: Highlights projects with descriptions and technologies used.
 - **PublicationCard**: Details publications with titles, publishers, and links.
 
+## Modifying Personal Data
+
+To update the personal data used in the application, you can modify the `personalData.ts` file located in the `src/data` directory. This file contains structured data about personal information, programming languages, technologies, soft skills, experiences, education, projects, and publications.
+
+1. Open `src/data/personalData.ts` in your preferred code editor.
+2. Update the fields as necessary. Each section is clearly labeled and structured for easy modification.
+3. Save your changes and restart the development server to see the updates reflected in the application.
+
 ## Contributing
 
 Contributions are welcome! Please follow these steps:
