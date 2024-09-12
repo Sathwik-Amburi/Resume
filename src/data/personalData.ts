@@ -203,7 +203,7 @@ const personalData: PersonalData = {
       type: 'Experience',
       company: 'Parloa',
       location: 'München, Germany',
-      jobTitle: 'Frontend Developer (UI/UX), JST Practical Course',
+      jobTitle: 'Frontend Developer (UI/UX)',
       date: 'October 2023 – February 2024',
       description:
         "Developed a Simulation Modal for streamlined simulations. Led design and implementation of user interfaces for Parloa's AI platform, focusing on dynamic interaction for monitoring and testing of self-improving LLM bots.",
@@ -212,7 +212,7 @@ const personalData: PersonalData = {
       type: 'Experience',
       company: 'Allianz GI',
       location: 'München, Germany',
-      jobTitle: 'Developer, Java Script Technology Seminar',
+      jobTitle: 'Software Developer',
       date: 'April 2023 – June 2023',
       description:
         'Contributed to the development of an application supporting investors in meeting their investment goals. Developed a web interface integrating state-of-art risklab services of Allianz GI.',
