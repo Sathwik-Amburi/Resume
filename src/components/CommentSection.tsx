@@ -1,28 +1,41 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Smile, Send } from 'lucide-react';
 import { useUserStore } from '@/hooks/userStore';
-import { UserSetup } from '@/components/UserSetup';
+import { UserSetup } from './UserSetup';
 
 interface Comment {
+  id: string;
   user: {
     id: string;
     name: string;
     avatar: string;
   };
   text: string;
+  timestamp: number;
 }
 
-export default function CommentSection() {
+interface CommentSectionProps {
+  experienceId: string;
+}
+
+export default function CommentSection({ experienceId }: CommentSectionProps) {
   const user = useUserStore((state) => state.user);
   const [comments, setComments] = useState<Comment[]>([]);
   const [comment, setComment] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
+  useEffect(() => {
+    const storedComments = localStorage.getItem(`comments-${experienceId}`);
+    if (storedComments) {
+      setComments(JSON.parse(storedComments));
+    }
+  }, [experienceId]);
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value);
@@ -41,15 +54,22 @@ export default function CommentSection() {
     if (comment.trim() === '' || !user) return;
 
     const newComment: Comment = {
+      id: Date.now().toString(),
       user: {
         id: user.id,
         name: user.name,
         avatar: user.avatar,
       },
       text: comment,
+      timestamp: Date.now(),
     };
 
-    setComments((prevComments) => [...prevComments, newComment]);
+    const updatedComments = [...comments, newComment];
+    setComments(updatedComments);
+    localStorage.setItem(
+      `comments-${experienceId}`,
+      JSON.stringify(updatedComments)
+    );
     setComment('');
   };
 
@@ -99,8 +119,8 @@ export default function CommentSection() {
           )}
         </div>
       </form>
-      {comments.map((comment, index) => (
-        <div key={index} className="flex items-center mb-2">
+      {comments.map((comment) => (
+        <div key={comment.id} className="flex items-center mb-2">
           <Avatar className="w-8 h-8 mr-2">
             <AvatarImage src={comment.user.avatar} alt={comment.user.name} />
             <AvatarFallback>{comment.user.name.charAt(0)}</AvatarFallback>

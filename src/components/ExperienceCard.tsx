@@ -58,6 +58,7 @@ const ExperienceHeader = memo(
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+            <span className="sr-only">Open menu</span>
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
@@ -161,6 +162,7 @@ ActionButton.displayName = 'ActionButton';
 
 const ExperienceCard: React.FC<ExperienceCardProps> = memo(
   ({
+    id,
     type,
     company,
     location,
@@ -230,7 +232,7 @@ const ExperienceCard: React.FC<ExperienceCardProps> = memo(
             <ActionButton icon={Share} label="Share" onClick={onShare} />
           </div>
         </CardFooter>
-        {showComments && <DynamicCommentSection />}
+        {showComments && <DynamicCommentSection experienceId={id} />}
       </Card>
     );
   }

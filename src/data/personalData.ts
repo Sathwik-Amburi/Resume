@@ -191,6 +191,7 @@ const personalData: PersonalData = {
   ],
   experiences: [
     {
+      id: '1',
       type: 'Experience',
       company: 'Siemens AG',
       location: 'München, Germany',
@@ -200,6 +201,7 @@ const personalData: PersonalData = {
         'Contributing to the development of an education platform for secure code writing, focusing on Rust. Conducting research on security vulnerabilities in Rust and identifying examples of Unsafe Rust code vulnerable to various attacks.',
     },
     {
+      id: '2',
       type: 'Experience',
       company: 'Parloa',
       location: 'München, Germany',
@@ -209,6 +211,7 @@ const personalData: PersonalData = {
         "Developed a Simulation Modal for streamlined simulations. Led design and implementation of user interfaces for Parloa's AI platform, focusing on dynamic interaction for monitoring and testing of self-improving LLM bots.",
     },
     {
+      id: '3',
       type: 'Experience',
       company: 'Allianz GI',
       location: 'München, Germany',
@@ -218,6 +221,7 @@ const personalData: PersonalData = {
         'Contributed to the development of an application supporting investors in meeting their investment goals. Developed a web interface integrating state-of-art risklab services of Allianz GI.',
     },
     {
+      id: '4',
       type: 'Experience',
       company: 'TUM - Lehrstuhl für Baurealisierung und Baurobotik',
       location: 'München, Germany',
@@ -227,6 +231,7 @@ const personalData: PersonalData = {
         'Contributed to EU project ENSNARE. Developed a desktop application for generating JSON files with facade object positions from building images. Worked on a Python plugin for FreeCAD to generate BIM models from building images.',
     },
     {
+      id: '5',
       type: 'Experience',
       company: 'MEIIPORUL SOLUTIONS PRIVATE LIMITED',
       location: 'Chennai, India',

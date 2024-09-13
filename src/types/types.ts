@@ -23,6 +23,7 @@ export interface Skill {
 }
 
 export interface Experience {
+  id: string;
   type: string;
   company: string;
   location: string;
