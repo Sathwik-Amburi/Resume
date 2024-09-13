@@ -1,26 +1,13 @@
 'use client';
 
 import React, { memo, useState, useCallback } from 'react';
-import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { Experience } from '@/types/types';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import ExperienceHeader from '@/components/ExperienceHeader';
+import ImageCollage from '@/components/ImageCollage';
+import ActionButton from '@/components/ActionButton';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import {
-  ThumbsUp,
-  MessageSquare,
-  Send,
-  Share,
-  Clock,
-  MoreHorizontal,
-} from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { ThumbsUp, MessageSquare, Send, Share } from 'lucide-react';
 
 const DynamicCommentSection = dynamic(
   () => import('@/components/CommentSection'),
