@@ -1,42 +1,28 @@
 'use client';
-import { useState, useEffect } from 'react';
+
+import { useState } from 'react';
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Smile, Send } from 'lucide-react';
-
-interface User {
-  id: number;
-  name: string;
-  avatar: string;
-}
+import { useUserStore } from '@/hooks/userStore';
+import { UserSetup } from '@/components/UserSetup';
 
 interface Comment {
-  user: User;
+  user: {
+    id: string;
+    name: string;
+    avatar: string;
+  };
   text: string;
 }
 
-const defaultUsers: User[] = [
-  { id: 1, name: 'Alice', avatar: '' },
-  { id: 2, name: 'Bob', avatar: '' },
-];
-
 export default function CommentSection() {
-  const [currentUser, setCurrentUser] = useState<User>(defaultUsers[0]);
+  const user = useUserStore((state) => state.user);
   const [comments, setComments] = useState<Comment[]>([]);
-
   const [comment, setComment] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-
-  const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedUser = defaultUsers.find(
-      (user) => user.id === parseInt(e.target.value)
-    );
-    if (selectedUser) {
-      setCurrentUser(selectedUser);
-    }
-  };
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value);
@@ -49,12 +35,17 @@ export default function CommentSection() {
   const toggleEmojiPicker = () => {
     setShowEmojiPicker((prev) => !prev);
   };
+
   const handleSubmitComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (comment.trim() === '') return;
+    if (comment.trim() === '' || !user) return;
 
     const newComment: Comment = {
-      user: currentUser,
+      user: {
+        id: user.id,
+        name: user.name,
+        avatar: user.avatar,
+      },
       text: comment,
     };
 
@@ -62,29 +53,16 @@ export default function CommentSection() {
     setComment('');
   };
 
-  useEffect(() => {
-    console.log('Current user:', currentUser.name);
-  }, [currentUser]);
+  if (!user) {
+    return <UserSetup />;
+  }
 
   return (
     <div className="mt-4 border-t border-gray-200 dark:border-gray-700 pt-4">
-      <div className="mb-4">
-        <select
-          onChange={handleUserChange}
-          value={currentUser.id}
-          className="text-blue-600 dark:text-blue-400"
-        >
-          {defaultUsers.map((user) => (
-            <option key={user.id} value={user.id}>
-              {user.name}
-            </option>
-          ))}
-        </select>
-      </div>
       <form onSubmit={handleSubmitComment} className="flex items-center mb-4">
         <Avatar className="w-8 h-8 mr-2">
-          <AvatarImage src={currentUser.avatar} alt={currentUser.name} />
-          <AvatarFallback>{currentUser.name.charAt(0)}</AvatarFallback>
+          <AvatarImage src={user.avatar} alt={user.name} />
+          <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
         </Avatar>
         <div className="relative flex-1">
           <Input
@@ -97,7 +75,7 @@ export default function CommentSection() {
             type="submit"
             variant="ghost"
             size="icon"
-            className="absolute right-0 top-0 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-600"
+            className="absolute right-0 top-0 text-primary hover:text-primary-foreground"
           >
             <Send className="h-4 w-4" />
             <span className="sr-only">Send comment</span>
@@ -108,7 +86,7 @@ export default function CommentSection() {
             type="button"
             variant="ghost"
             size="icon"
-            className="ml-2 text-blue-600 dark:text-blue-400"
+            className="ml-2 text-primary"
             onClick={toggleEmojiPicker}
           >
             <Smile className="h-4 w-4" />
