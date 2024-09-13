@@ -3,15 +3,7 @@
 import React, { memo, useState, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { Experience } from '@/types/types';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Clock, MoreHorizontal } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { ThumbsUp, MessageSquare, Send, Share } from 'lucide-react';
 
@@ -26,7 +18,6 @@ interface ExperienceCardProps extends Experience {
   onShare?: () => void;
   images?: string[];
 }
-
 
 const ExperienceCard: React.FC<ExperienceCardProps> = memo(
   ({
