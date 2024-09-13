@@ -90,7 +90,7 @@ const ExperienceCard: React.FC<ExperienceCardProps> = memo(
               label="Comment"
               onClick={handleCommentClick}
             />
-            <ActionButton icon={Send} label="Send" />
+            <ActionButton icon={Send} label="Send" onClick={() => {}} />
             <ActionButton icon={Share} label="Share" onClick={onShare} />
           </div>
         </CardFooter>
