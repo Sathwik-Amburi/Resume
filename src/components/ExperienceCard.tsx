@@ -6,6 +6,9 @@ import { Experience } from '@/types/types';
 
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { ThumbsUp, MessageSquare, Send, Share } from 'lucide-react';
+import ExperienceHeader from './ExperienceHeader';
+import ImageCollage from './ImageCollage';
+import ActionButton from './ActionButton';
 
 const DynamicCommentSection = dynamic(
   () => import('@/components/CommentSection'),
