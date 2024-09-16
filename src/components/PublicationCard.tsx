@@ -11,13 +11,13 @@ import { ExternalLink } from 'lucide-react';
 
 import { PublicationProps } from '@/types/types';
 
-const PublicationCard: React.FC<PublicationProps> = ({
+const PublicationCard = ({
   title,
   publisher,
   date,
   description,
   link,
-}) => {
+}: PublicationProps) => {
   return (
     <Card className="mb-6">
       <CardHeader>

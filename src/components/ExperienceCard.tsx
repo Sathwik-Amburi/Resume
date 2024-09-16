@@ -22,7 +22,7 @@ interface ExperienceCardProps extends Experience {
   images?: string[];
 }
 
-const ExperienceCard: React.FC<ExperienceCardProps> = memo(
+const ExperienceCard = memo(
   ({
     id,
     type,
@@ -33,7 +33,7 @@ const ExperienceCard: React.FC<ExperienceCardProps> = memo(
     description,
     onShare,
     images,
-  }) => {
+  }: ExperienceCardProps) => {
     const [showComments, setShowComments] = useState(false);
     const [likeCount, setLikeCount] = useState(23);
     const [commentCount, setCommentCount] = useState(12); //eslint-disable-line

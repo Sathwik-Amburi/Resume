@@ -76,7 +76,7 @@ const SkillContent = React.memo(({ skill }: { skill: Skill }) => (
 
 SkillContent.displayName = 'SkillContent';
 
-const SkillsSidebar: React.FC<SkillsSectionProps> = ({ title, skills }) => {
+const SkillsSidebar = ({ title, skills }: SkillsSectionProps) => {
   const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);

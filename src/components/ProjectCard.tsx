@@ -10,13 +10,13 @@ import { Badge } from '@/components/ui/badge';
 
 import { ProjectProps } from '@/types/types';
 
-const ProjectCard: React.FC<ProjectProps> = ({
+const ProjectCard = ({
   name,
   description,
   date,
   technologies,
   role,
-}) => {
+}: ProjectProps) => {
   return (
     <Card className="mb-6">
       <CardHeader>

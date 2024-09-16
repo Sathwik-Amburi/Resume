@@ -11,14 +11,14 @@ interface ExtendedProfileInfoProps extends ProfileInfoProps {
   linkedin?: string;
 }
 
-const ProfileInfo: React.FC<ExtendedProfileInfoProps> = ({
+const ProfileInfo = ({
   name,
   location,
   email,
   avatar,
   github,
   linkedin,
-}) => {
+}: ExtendedProfileInfoProps) => {
   const firstName = name.split(' ')[0];
   const jobSearchPhrase = `Job search is on ${firstName}'s mind`;
 
