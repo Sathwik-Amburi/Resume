@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo, useState, useCallback } from 'react';
+import { memo, useState, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { Experience } from '@/types/types';
 

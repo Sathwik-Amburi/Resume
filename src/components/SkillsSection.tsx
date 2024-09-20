@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState, memo } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -46,7 +46,7 @@ export interface SkillsSectionProps {
   skills: Skill[];
 }
 
-const SkillContent = React.memo(({ skill }: { skill: Skill }) => (
+const SkillContent = memo(({ skill }: { skill: Skill }) => (
   <div className="space-y-2">
     <p>
       <span className="font-semibold">Proficiency:</span> {skill.proficiency}
