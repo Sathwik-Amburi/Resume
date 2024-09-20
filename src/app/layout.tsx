@@ -17,6 +17,15 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: 'Resume',
   description: "Sathwik Amburi's resume",
+  icons: {
+    icon: '/facebook.ico',
+    shortcut: '/facebook.ico',
+    apple: '/facebook.ico',
+    other: {
+      rel: 'apple-touch-icon-precomposed',
+      url: '/facebook.ico',
+    },
+  },
 };
 
 export default function RootLayout({
