@@ -22,9 +22,13 @@ interface Comment {
 
 interface CommentSectionProps {
   experienceId: string;
+  onCommentCountUpdate: (count: number) => void;
 }
 
-export default function CommentSection({ experienceId }: CommentSectionProps) {
+export default function CommentSection({
+  experienceId,
+  onCommentCountUpdate,
+}: CommentSectionProps) {
   const user = useUserStore((state) => state.user);
   const [comments, setComments] = useState<Comment[]>([]);
   const [comment, setComment] = useState('');
@@ -33,9 +37,11 @@ export default function CommentSection({ experienceId }: CommentSectionProps) {
   useEffect(() => {
     const storedComments = localStorage.getItem(`comments-${experienceId}`);
     if (storedComments) {
-      setComments(JSON.parse(storedComments));
+      const parsedComments = JSON.parse(storedComments);
+      setComments(parsedComments);
+      onCommentCountUpdate(parsedComments.length);
     }
-  }, [experienceId]);
+  }, [experienceId, onCommentCountUpdate]);
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value);
@@ -70,6 +76,7 @@ export default function CommentSection({ experienceId }: CommentSectionProps) {
       `comments-${experienceId}`,
       JSON.stringify(updatedComments)
     );
+    onCommentCountUpdate(updatedComments.length);
     setComment('');
   };
 
