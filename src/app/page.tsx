@@ -82,7 +82,7 @@ export default function ResumePage() {
             )}
           </div>
 
-          <aside className="w-full md:w-1/4 space-y-6 order-2 md:order-1 hidden md:block">
+          <aside className="w-full md:w-1/4 space-y-6 order-2 md:order-1 hidden md:block gap-2">
             <SkillsSection
               title="Programming Languages"
               skills={personalData.programmingLanguages}
