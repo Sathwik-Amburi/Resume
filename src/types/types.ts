@@ -30,6 +30,7 @@ export interface Experience {
   jobTitle: string;
   date: string;
   description: string;
+  images?: string[];
 }
 
 export interface Education {

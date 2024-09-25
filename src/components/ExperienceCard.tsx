@@ -20,7 +20,6 @@ const DynamicCommentSection = dynamic(
 
 interface ExperienceCardProps extends Experience {
   onShare?: () => void;
-  images?: string[];
 }
 
 const ExperienceCard = memo(
