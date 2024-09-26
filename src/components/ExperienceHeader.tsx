@@ -12,7 +12,7 @@ import {
 
 const ExperienceHeader = memo(
   ({ company, type, location, jobTitle, date }: Partial<Experience>) => {
-    const companyLogoPath = `/company/${company?.toLowerCase().replace(/\s+/g, '_')}.png`;
+    const companyLogoPath = `/company/${company?.toLowerCase().replace(/\s+/g, '_')}.webp`;
 
     return (
       <div className="flex items-start mb-4">
