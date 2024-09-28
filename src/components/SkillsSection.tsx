@@ -147,7 +147,7 @@ const SkillsSidebar = ({ title, skills }: SkillsSectionProps) => {
       </div>
 
       {/* Mobile View */}
-      <div className="md:hidden">
+      <div className="md:hidden m-4">
         <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
           <DrawerTrigger asChild>
             <Button variant="ghost" className="w-full justify-between p-4">
