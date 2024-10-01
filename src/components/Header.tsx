@@ -216,12 +216,6 @@ export default function Header({
                     className="object-cover rounded-full"
                     priority
                   />
-                  {/* <AvatarFallback className="bg-[#1877F2] text-white text-xs">
-                    {name
-                      .split(' ')
-                      .map((n: string) => n[0])
-                      .join('')}
-                  </AvatarFallback> */}
                 </Avatar>
                 <span className="font-semibold text-sm hidden sm:inline">
                   {name}
