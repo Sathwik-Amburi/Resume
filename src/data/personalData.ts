@@ -164,7 +164,7 @@ const personalData: PersonalData = {
       name: 'Leadership',
       proficiency: 'Advanced',
       projects: ['ASE Delivery', 'Parloa AI Platform'],
-      certifications: ['Leadership Development Program'],
+      certifications: [],
       yearsOfExperience: 5,
     },
     {
