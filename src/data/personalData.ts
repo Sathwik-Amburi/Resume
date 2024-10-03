@@ -305,38 +305,50 @@ const personalData: PersonalData = {
   ],
   publications: [
     {
-      title: 'Rust Programming Language and Secure Software Development',
-      publisher: 'IARIA : CYBER 2023',
-      date: 'April 2023 – September 2023',
+      title:
+        'May the Source Be with You: On ChatGPT, Cybersecurity, and Secure Coding',
+      publisher: 'Information',
+      date: '2024',
       description:
-        'Explored the security features of Rust and their implications for secure software development.',
-      link: 'https://www.example.com/rust-security-paper',
+        'This paper explores the potential of ChatGPT in cybersecurity and secure coding. It discusses the challenges and opportunities of using large language models like ChatGPT for security applications, such as code analysis and vulnerability detection. The study provides insights into the capabilities and limitations of ChatGPT in identifying security issues in code, highlighting the need for further research and development in this area.',
+      link: 'https://doi.org/10.3390/info15090572',
     },
     {
-      title: 'Rust Programming Language and Secure Software Development',
-      publisher: 'IARIA : CYBER 2023',
-      date: 'April 2023 – September 2023',
+      title:
+        'Can Secure Software be Developed in Rust? On Vulnerabilities and Secure Coding Guidelines',
+      publisher: 'International Journal On Advances in Security',
+      date: '2024',
       description:
-        'Explored the security features of Rust and their implications for secure software development.',
-      link: 'https://www.example.com/rust-security-paper',
+        "The paper examines the security of software developed in the Rust programming language, comparing it to C, C++, and Java. It highlights Rust's strengths in memory safety and concurrency but notes that writing secure software is still challenging. The study identifies ten common security pitfalls in Rust and suggests that while Rust improves security, vulnerabilities are still possible.",
+      link: 'https://www.thinkmind.org/articles/sec_v17_n12_2024_5.pdf',
+    },
+    {
+      title:
+        'I Think This is the Beginning of a Beautiful Friendship - On the Rust Programming Language and Secure Software Development in the Industry',
+      publisher: 'CYBER 2023',
+      date: '2023',
+      description:
+        "The paper examines the Rust programming language, highlighting its security benefits and comparing it to C, C++, and Java. It discusses Rust's strengths, like memory safety, while acknowledging that vulnerabilities can still exist. Despite its advantages, the research emphasizes that Rust isn't immune to security issues and encourages ongoing vigilance and further research.",
+      link: 'https://personales.upv.es/thinkmind/CYBER/CYBER_2023/cyber_2023_1_40_80031.html',
     },
     {
       title:
         'Online Modelling and Prefab Layout definition for building Renovation',
-      publisher: '2023 Proceedings of the 40th ISARC',
-      date: 'March 2021 – March 2022',
+      publisher:
+        'The International Association for Automation and Robotics in Construction',
+      date: '2023',
       description:
-        'Presented a novel approach to online modelling and prefab layout definition for efficient building renovation processes.',
-      link: 'https://www.example.com/building-renovation-paper',
+        'This paper introduces a powerful semi-automated tool that efficiently creates detailed 3D building models and layouts of prefabricated modules with solar panels from building images and Open Street Map floor plans. The tool permits the generation of the existing building model and the layout of the prefabricated panels in an average of 25 minutes, depending on the complexity of the building geometry.',
+      link: 'https://doi.org/10.22260/ISARC2023/0083',
     },
     {
       title:
         'Transforming Native Epidemic Models by Using the Machine Learning Approach',
       publisher: 'Annals of the Romanian Society for Cell Biology',
-      date: 'December 2020 – May 2021',
+      date: '2021',
       description:
-        'Proposed a machine learning approach to enhance traditional epidemic models for improved disease spread prediction.',
-      link: 'https://www.example.com/epidemic-models-ml-paper',
+        'This paper explores transforming traditional epidemic models using machine learning. Conventional models often fail to adapt to real-world complexities and evolving socio-environmental factors. By integrating machine learning, the paper proposes more dynamic models that can better forecast and respond to epidemic conditions, such as those seen during the COVID-19 pandemic.',
+      link: 'http://annalsofrscb.ro/index.php/journal/article/view/2831',
     },
   ],
 };
