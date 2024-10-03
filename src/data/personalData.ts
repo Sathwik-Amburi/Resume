@@ -313,6 +313,14 @@ const personalData: PersonalData = {
       link: 'https://www.example.com/rust-security-paper',
     },
     {
+      title: 'Rust Programming Language and Secure Software Development',
+      publisher: 'IARIA : CYBER 2023',
+      date: 'April 2023 – September 2023',
+      description:
+        'Explored the security features of Rust and their implications for secure software development.',
+      link: 'https://www.example.com/rust-security-paper',
+    },
+    {
       title:
         'Online Modelling and Prefab Layout definition for building Renovation',
       publisher: '2023 Proceedings of the 40th ISARC',
