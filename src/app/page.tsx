@@ -91,10 +91,10 @@ export default function ResumePage() {
               title="Technologies"
               skills={personalData.technologies}
             />
-            <SkillsSection
+            {/* <SkillsSection
               title="Soft Skills"
               skills={personalData.softSkills}
-            />
+            /> */}
           </aside>
         </div>
       </main>

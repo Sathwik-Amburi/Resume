@@ -230,16 +230,6 @@ const personalData: PersonalData = {
       description:
         'Contributed to EU project ENSNARE. Developed a desktop application for generating JSON files with facade object positions from building images. Worked on a Python plugin for FreeCAD to generate BIM models from building images.',
     },
-    {
-      id: '5',
-      type: 'Experience',
-      company: 'MEIIPORUL SOLUTIONS PRIVATE LIMITED',
-      location: 'Chennai, India',
-      jobTitle: 'Intern',
-      date: 'April 2020 – May 2020',
-      description:
-        'Implemented epidemic models to forecast COVID-19 spread. Designed a patient dashboard using Dash and Plotly. Developed deep learning models for categorizing chest X-ray and CT scans for early COVID-19 detection.',
-    },
   ],
   education: [
     {
