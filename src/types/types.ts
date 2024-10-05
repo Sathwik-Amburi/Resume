@@ -7,7 +7,6 @@ export interface PersonalData {
   avatar: string;
   programmingLanguages: Skill[];
   technologies: Skill[];
-  softSkills: Skill[];
   experiences: Experience[];
   education: Education[];
   projects: Project[];

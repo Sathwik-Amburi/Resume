@@ -159,36 +159,6 @@ const personalData: PersonalData = {
       yearsOfExperience: 2,
     },
   ],
-  softSkills: [
-    {
-      name: 'Leadership',
-      proficiency: 'Advanced',
-      projects: ['ASE Delivery', 'Parloa AI Platform'],
-      certifications: [],
-      yearsOfExperience: 5,
-    },
-    {
-      name: 'Teamwork',
-      proficiency: 'Expert',
-      projects: ['All projects'],
-      certifications: [],
-      yearsOfExperience: 6,
-    },
-    {
-      name: 'Problem Solving',
-      proficiency: 'Expert',
-      projects: ['All projects'],
-      certifications: [],
-      yearsOfExperience: 6,
-    },
-    {
-      name: 'Adaptability',
-      proficiency: 'Advanced',
-      projects: ['All projects'],
-      certifications: [],
-      yearsOfExperience: 5,
-    },
-  ],
   experiences: [
     {
       id: '1',
