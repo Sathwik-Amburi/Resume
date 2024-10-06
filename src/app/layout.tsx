@@ -15,8 +15,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Resume',
-  description: "Sathwik Amburi's resume",
+  title: "Sathwik Amburi's Resume",
+  description: 'Facebook themed resume of Sathwik Amburi',
   icons: {
     icon: '/facebook.ico',
     shortcut: '/facebook.ico',
