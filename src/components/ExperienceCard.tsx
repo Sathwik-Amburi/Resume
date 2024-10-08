@@ -68,7 +68,7 @@ const ExperienceCard = memo(
     );
 
     return (
-      <Card className="mb-6 bg-white dark:bg-gray-800">
+      <Card className="mb-6">
         <CardContent className="p-4">
           <ExperienceHeader
             company={company}
